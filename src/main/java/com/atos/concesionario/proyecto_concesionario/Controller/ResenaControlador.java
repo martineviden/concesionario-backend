@@ -19,7 +19,6 @@ import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundE
 import com.atos.concesionario.proyecto_concesionario.Model.Resena;
 import com.atos.concesionario.proyecto_concesionario.Service.ResenaServicio;
 
-import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -49,7 +48,7 @@ public class ResenaControlador {
     }
 
     @PostMapping
-    public ResponseEntity<Resena> crearResena(@Valid @RequestBody Resena resena) {
+    public ResponseEntity<Resena> crearResena(@RequestBody Resena resena) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(resenaServicio.crearResena(resena));
     }
@@ -57,7 +56,7 @@ public class ResenaControlador {
     @PutMapping("/{id}")
     public ResponseEntity<Resena> actualizarResena(
             @PathVariable Long id, 
-            @Valid @RequestBody Resena resenaDetalles) throws ResourceNotFoundException {
+           @RequestBody Resena resenaDetalles) throws ResourceNotFoundException {
         return ResponseEntity.ok(resenaServicio.actualizarResena(id, resenaDetalles));
     }
 

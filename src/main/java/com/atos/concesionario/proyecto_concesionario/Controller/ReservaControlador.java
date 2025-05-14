@@ -18,7 +18,6 @@ import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundE
 import com.atos.concesionario.proyecto_concesionario.Model.Reserva;
 import com.atos.concesionario.proyecto_concesionario.Service.ReservaServicio;
 
-import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -43,7 +42,7 @@ public class ReservaControlador {
     }
 
     @PostMapping
-    public ResponseEntity<Reserva> crearReserva(@Valid @RequestBody Reserva reserva) {
+    public ResponseEntity<Reserva> crearReserva(@RequestBody Reserva reserva) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(reservaServicio.crearReserva(reserva));
     }
@@ -51,7 +50,7 @@ public class ReservaControlador {
     @PutMapping("/{id}")
     public ResponseEntity<Reserva> actualizarReserva(
             @PathVariable Long id,
-            @Valid @RequestBody Reserva reservaDetalles) throws ResourceNotFoundException {
+            @RequestBody Reserva reservaDetalles) throws ResourceNotFoundException {
         return ResponseEntity.ok(reservaServicio.actualizarReserva(id, reservaDetalles));
     }
 

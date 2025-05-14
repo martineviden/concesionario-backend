@@ -10,7 +10,6 @@ import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundE
 import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo;
 import com.atos.concesionario.proyecto_concesionario.Service.VehiculoServicio;
 
-import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -34,13 +33,13 @@ public class VehiculoControlador {
 	}
 
 	@PostMapping
-	public Vehiculo crearVehiculo(@Valid @RequestBody Vehiculo vehiculo) {
+	public Vehiculo crearVehiculo(@RequestBody Vehiculo vehiculo) {
 		return vehiculoServicio.crearVehiculo(vehiculo);
 	}
 
 	@PutMapping("/{matricula}")
 	public ResponseEntity<Vehiculo> actualizarVehiculo(@PathVariable String matricula,
-			@Valid @RequestBody Vehiculo vehiculoDetalles) throws ResourceNotFoundException {
+			@RequestBody Vehiculo vehiculoDetalles) throws ResourceNotFoundException {
 		return vehiculoServicio.actualizarVehiculo(matricula, vehiculoDetalles);
 	}
 

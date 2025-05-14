@@ -18,7 +18,6 @@ import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundE
 import com.atos.concesionario.proyecto_concesionario.Model.Usuario;
 import com.atos.concesionario.proyecto_concesionario.Service.UsuarioServicio;
 
-import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -46,12 +45,12 @@ public class UsuarioControlador {
     }
 
     @PostMapping
-    public Usuario crearUsuario(@Valid @RequestBody Usuario usuario) {
+    public Usuario crearUsuario(@RequestBody Usuario usuario) {
         return usuarioServicio.crearUsuario(usuario);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long usuarioId, @Valid @RequestBody Usuario usuarioDetalles) throws ResourceNotFoundException {
+    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long usuarioId, @RequestBody Usuario usuarioDetalles) throws ResourceNotFoundException {
         return usuarioServicio.actualizarUsuario(usuarioId, usuarioDetalles);
     }
 
