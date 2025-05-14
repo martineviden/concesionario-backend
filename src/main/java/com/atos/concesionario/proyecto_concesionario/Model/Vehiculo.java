@@ -25,11 +25,12 @@ public class Vehiculo {
 	@Id
 	@Column(name = "matricula", nullable = false, unique = true)
 	private String matricula;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "id_tipo_vehiculo", nullable = false)
 	private TipoVehiculo tipoVehiculo;
 
+	// Campos generales
 	@Column(nullable = false)
 	private String color;
 
@@ -48,6 +49,8 @@ public class Vehiculo {
 	@Column(name = "autonomia")
 	private Integer autonomia;
 
+	
+	 // Campos condicionales según tipo
 	@Column(name = "puertas")
 	private Integer puertas;
 
@@ -63,5 +66,23 @@ public class Vehiculo {
 
 	@OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL)
 	private List<Reserva> reservas;
+	
+	// Método helper para verificar tipo
+    public boolean esMoto() {
+        return tipoVehiculo.getTipo() == TipoVehiculo.Tipo.MOTO;
+    }
+
+    // Validación automática
+    @PrePersist
+    @PreUpdate
+    private void validate() {
+        if (esMoto() && puertas != null) {
+            throw new IllegalStateException("Las motos no tienen puertas");
+        }
+        
+        if (!esMoto() && tipoVehiculo.getTipo() == TipoVehiculo.Tipo.COCHE && puertas == null) {
+            throw new IllegalStateException("Los coches deben especificar número de puertas");
+        }
+    }
 
 }
