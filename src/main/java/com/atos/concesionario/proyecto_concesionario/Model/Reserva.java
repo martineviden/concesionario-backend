@@ -4,6 +4,7 @@ import lombok.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
+
 @Entity
 @Table(name = "reserva")
 @Data
@@ -14,7 +15,7 @@ public class Reserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reservaId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "matricula", nullable = false)

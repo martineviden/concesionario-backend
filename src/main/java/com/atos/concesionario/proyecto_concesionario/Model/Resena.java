@@ -17,7 +17,7 @@ public class Resena {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long resenaId;
+    private Long id;
 
     @Column(columnDefinition = "TEXT")
     private String texto;

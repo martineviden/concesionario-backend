@@ -15,30 +15,22 @@ public class Vehiculo {
 	}
 
 	public enum EtiquetaAmbiental {
-		CERO("0"), ECO, C, B, A;
-
-		private String value;
-
-		EtiquetaAmbiental() {
-		}
-
-		EtiquetaAmbiental(String value) {
-			this.value = value;
-		}
-
-		public String getValue() {
-			return value != null ? value : this.name();
-		}
+	    CERO, ECO, C, B, A;
+	    
+	    public String getValue() {
+	        return this.name(); // Devuelve "CERO", "ECO", etc.
+	    }
 	}
 
 	@Id
 	@Column(name = "matricula", nullable = false, unique = true)
 	private String matricula;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "id_tipo_vehiculo", nullable = false)
 	private TipoVehiculo tipoVehiculo;
 
+	// Campos generales
 	@Column(nullable = false)
 	private String color;
 
@@ -57,11 +49,10 @@ public class Vehiculo {
 	@Column(name = "autonomia")
 	private Integer autonomia;
 
+	
+	 // Campos condicionales según tipo
 	@Column(name = "puertas")
 	private Integer puertas;
-
-	@Column(name = "marca")
-	private String marca;
 
 	@Column(name = "aire_acondicionado")
 	private Boolean aireAcondicionado;
@@ -69,14 +60,29 @@ public class Vehiculo {
 	@Column(name = "plazas")
 	private Integer plazas;
 
-	@Column(name = "precio")
-	private Double precio;
-
 	@Enumerated(EnumType.STRING)
 	@Column(name = "transmision")
 	private Transmision transmision;
 
 	@OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL)
 	private List<Reserva> reservas;
+	
+	// Método helper para verificar tipo
+    public boolean esMoto() {
+        return tipoVehiculo.getTipo() == TipoVehiculo.Tipo.MOTO;
+    }
+
+    // Validación automática
+    @PrePersist
+    @PreUpdate
+    private void validate() {
+        if (esMoto() && puertas != null) {
+            throw new IllegalStateException("Las motos no tienen puertas");
+        }
+        
+        if (!esMoto() && tipoVehiculo.getTipo() == TipoVehiculo.Tipo.COCHE && puertas == null) {
+            throw new IllegalStateException("Los coches deben especificar número de puertas");
+        }
+    }
 
 }
