@@ -15,20 +15,11 @@ public class Vehiculo {
 	}
 
 	public enum EtiquetaAmbiental {
-		CERO("0"), ECO, C, B, A;
-
-		private String value;
-
-		EtiquetaAmbiental() {
-		}
-
-		EtiquetaAmbiental(String value) {
-			this.value = value;
-		}
-
-		public String getValue() {
-			return value != null ? value : this.name();
-		}
+	    CERO, ECO, C, B, A;
+	    
+	    public String getValue() {
+	        return this.name(); // Devuelve "CERO", "ECO", etc.
+	    }
 	}
 
 	@Id
