@@ -1,8 +1,8 @@
 package com.atos.concesionario.proyecto_concesionario.Service;
 
 import java.util.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
+
 import org.springframework.stereotype.Service;
 
 import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundException;
@@ -14,54 +14,38 @@ public class ResenaServicio {
 
     private final ResenaRepositorio resenaRepositorio;
 
-    @Autowired
     public ResenaServicio(ResenaRepositorio resenaRepositorio) {
         this.resenaRepositorio = resenaRepositorio;
     }
 
-    // Métodos CRUD
+    public Page<Resena> obtenerResenasPaginadas(int pagina, int tamaño) {
+        Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("fecha").descending());
+        return resenaRepositorio.findAll(pageable);
+    }
 
     public List<Resena> obtenerTodasResenas() {
         return resenaRepositorio.findAll();
     }
 
-    public ResponseEntity<Resena> obtenerResenaPorId(Long resenaId) throws ResourceNotFoundException {
-        Resena resena = resenaRepositorio.findById(resenaId)
-            .orElseThrow(() -> new ResourceNotFoundException("Reseña con id " + resenaId + " no encontrada"));
-        
-        return ResponseEntity.ok().body(resena);
+    public Resena obtenerResenaPorId(Long id) throws ResourceNotFoundException {
+        return resenaRepositorio.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Reseña no encontrada"));
     }
 
     public Resena crearResena(Resena resena) {
         return resenaRepositorio.save(resena);
     }
 
-    public ResponseEntity<Resena> actualizarResena(Long resenaId, Resena resenaDetalles) throws ResourceNotFoundException {
-        Resena resena = resenaRepositorio.findById(resenaId)
-            .orElseThrow(() -> new ResourceNotFoundException("Reseña con id " + resenaId + " not found"));
-        
+    public Resena actualizarResena(Long id, Resena resenaDetalles) throws ResourceNotFoundException {
+        Resena resena = obtenerResenaPorId(id);
+        // Actualizar campos
         resena.setTexto(resenaDetalles.getTexto());
         resena.setPuntuacion(resenaDetalles.getPuntuacion());
-        resena.setFecha(resenaDetalles.getFecha());
-        resena.setUsuario(resenaDetalles.getUsuario());
-        resena.setVehiculo(resenaDetalles.getVehiculo());
-        resena.setReserva(resenaDetalles.getReserva());
-
-        final Resena resenaActualizada = resenaRepositorio.save(resena);
-        return ResponseEntity.ok(resenaActualizada);
+        return resenaRepositorio.save(resena);
     }
 
-    public Map<String, Boolean> eliminarResena(Long resenaId) throws ResourceNotFoundException {
-        Resena resena = resenaRepositorio.findById(resenaId)
-            .orElseThrow(() -> new ResourceNotFoundException("Reseña con id " + resenaId + " no encontrada"));
-        
+    public void eliminarResena(Long id) throws ResourceNotFoundException {
+        Resena resena = obtenerResenaPorId(id);
         resenaRepositorio.delete(resena);
-
-        Map<String, Boolean> respuesta = new HashMap<>();
-        respuesta.put("Reseña eliminada", Boolean.TRUE);
-        return respuesta;
     }
-
-    // Otros métodos
-
 }

@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundException;
+import com.atos.concesionario.proyecto_concesionario.Model.TipoVehiculo;
 import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo;
 import com.atos.concesionario.proyecto_concesionario.Repository.VehiculoRepositorio;
 
@@ -17,7 +17,7 @@ public class VehiculoServicio {
 
     private final VehiculoRepositorio vehiculoRepositorio;
 
-    @Autowired
+
     public VehiculoServicio(VehiculoRepositorio vehiculoRepositorio) {
         this.vehiculoRepositorio = vehiculoRepositorio;
     }
@@ -26,10 +26,13 @@ public class VehiculoServicio {
         return vehiculoRepositorio.findAll();
     }
 
+    public List<Vehiculo> obtenerVehiculosDisponibles() {
+        return vehiculoRepositorio.findByDisponibilidadTrue();
+    }
+
     public ResponseEntity<Vehiculo> obtenerVehiculoPorMatricula(String matricula) throws ResourceNotFoundException {
         Vehiculo vehiculo = vehiculoRepositorio.findById(matricula)
             .orElseThrow(() -> new ResourceNotFoundException("Vehículo con matrícula " + matricula + " no encontrado"));
-        
         return ResponseEntity.ok().body(vehiculo);
     }
 
@@ -37,7 +40,8 @@ public class VehiculoServicio {
         return vehiculoRepositorio.save(vehiculo);
     }
 
-    public ResponseEntity<Vehiculo> actualizarVehiculoPorMatricula(String matricula, Vehiculo detallesVehiculo) throws ResourceNotFoundException {
+    public ResponseEntity<Vehiculo> actualizarVehiculo(String matricula, Vehiculo detallesVehiculo) 
+        throws ResourceNotFoundException {
         Vehiculo vehiculo = vehiculoRepositorio.findById(matricula)
             .orElseThrow(() -> new ResourceNotFoundException("Vehículo con matrícula " + matricula + " no encontrado"));
 
@@ -57,7 +61,7 @@ public class VehiculoServicio {
         return ResponseEntity.ok(vehiculoActualizado);
     }
 
-    public Map<String, Boolean> eliminarVehiculoPorMatricula(String matricula) throws ResourceNotFoundException {
+    public Map<String, Boolean> eliminarVehiculo(String matricula) throws ResourceNotFoundException {
         Vehiculo vehiculo = vehiculoRepositorio.findById(matricula)
             .orElseThrow(() -> new ResourceNotFoundException("Vehículo con matrícula " + matricula + " no encontrado"));
         
@@ -68,6 +72,15 @@ public class VehiculoServicio {
         return respuesta;
     }
 
-    // Otros métodos
+    public List<Vehiculo> obtenerVehiculosPorTipo(TipoVehiculo.Tipo tipo) {
+        return vehiculoRepositorio.findByTipoVehiculoTipo(tipo);
+    }
 
+    public List<Vehiculo> buscarVehiculosPorMarca(String marca) {
+        return vehiculoRepositorio.findByMarcaContainingIgnoreCase(marca);
+    }
+    
+    // Métodos adicionales podrían incluir:
+    // - Buscar vehículos por rango de precio
+    // - Actualizar disponibilidad
 }

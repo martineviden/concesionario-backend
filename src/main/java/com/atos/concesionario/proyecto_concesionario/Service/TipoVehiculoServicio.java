@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -15,24 +14,19 @@ import com.atos.concesionario.proyecto_concesionario.Repository.TipoVehiculoRepo
 @Service
 
 public class TipoVehiculoServicio {
-	
 	private final TipoVehiculoRepositorio tipoVehiculoRepositorio;
 
-	@Autowired
 	public TipoVehiculoServicio(TipoVehiculoRepositorio tipoVehiculoRepositorio) {
 		this.tipoVehiculoRepositorio = tipoVehiculoRepositorio;
 	}
-
-	// Métodos CRUD
 
 	public List<TipoVehiculo> obtenerTodosTiposVehiculos() {
 		return tipoVehiculoRepositorio.findAll();
 	}
 
-	public ResponseEntity<TipoVehiculo> obtenerTipoVehiculoPorId(Long tipoVehiculoId) throws ResourceNotFoundException {
-		TipoVehiculo tipoVehiculo = tipoVehiculoRepositorio.findById(tipoVehiculoId)
-			.orElseThrow(() -> new ResourceNotFoundException("Tipo de vehículo con id " + tipoVehiculoId + " no encontrado"));
-		
+	public ResponseEntity<TipoVehiculo> obtenerTipoVehiculoPorId(Long id) throws ResourceNotFoundException {
+		TipoVehiculo tipoVehiculo = tipoVehiculoRepositorio.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Tipo de vehículo con id " + id + " no encontrado"));
 		return ResponseEntity.ok().body(tipoVehiculo);
 	}
 
@@ -40,9 +34,10 @@ public class TipoVehiculoServicio {
 		return tipoVehiculoRepositorio.save(tipoVehiculo);
 	}
 
-	public ResponseEntity<TipoVehiculo> actualizarTipoVehiculo(Long tipoVehiculoId, TipoVehiculo detallesTipoVehiculo) throws ResourceNotFoundException {
-		TipoVehiculo tipoVehiculo = tipoVehiculoRepositorio.findById(tipoVehiculoId)
-			.orElseThrow(() -> new ResourceNotFoundException("Tipo de vehículo con id " + tipoVehiculoId + " no encontrado"));
+	public ResponseEntity<TipoVehiculo> actualizarTipoVehiculo(Long id, TipoVehiculo detallesTipoVehiculo)
+			throws ResourceNotFoundException {
+		TipoVehiculo tipoVehiculo = tipoVehiculoRepositorio.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Tipo de vehículo con id " + id + " no encontrado"));
 
 		tipoVehiculo.setMarca(detallesTipoVehiculo.getMarca());
 		tipoVehiculo.setModelo(detallesTipoVehiculo.getModelo());
@@ -54,9 +49,9 @@ public class TipoVehiculoServicio {
 		return ResponseEntity.ok(tipoVehiculoActualizado);
 	}
 
-	public Map<String, Boolean> eliminarTipoVehiculo(Long tipoVehiculoId) throws ResourceNotFoundException {
-		TipoVehiculo tipoVehiculo = tipoVehiculoRepositorio.findById(tipoVehiculoId)
-			.orElseThrow(() -> new ResourceNotFoundException("Tipo de vehículo con id " + tipoVehiculoId + " no encontrado"));
+	public Map<String, Boolean> eliminarTipoVehiculo(Long id) throws ResourceNotFoundException {
+		TipoVehiculo tipoVehiculo = tipoVehiculoRepositorio.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Tipo de vehículo con id " + id + " no encontrado"));
 
 		tipoVehiculoRepositorio.delete(tipoVehiculo);
 
@@ -64,7 +59,4 @@ public class TipoVehiculoServicio {
 		respuesta.put("Tipo de vehículo eliminado", Boolean.TRUE);
 		return respuesta;
 	}
-
-	// Otros métodos
-
 }
