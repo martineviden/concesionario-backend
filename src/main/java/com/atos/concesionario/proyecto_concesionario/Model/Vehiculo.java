@@ -60,17 +60,11 @@ public class Vehiculo {
 	@Column(name = "puertas")
 	private Integer puertas;
 
-	@Column(name = "marca")
-	private String marca;
-
 	@Column(name = "aire_acondicionado")
 	private Boolean aireAcondicionado;
 
 	@Column(name = "plazas")
 	private Integer plazas;
-
-	@Column(name = "precio")
-	private Double precio;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "transmision")
