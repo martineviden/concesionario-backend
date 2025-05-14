@@ -1,9 +1,8 @@
 package com.atos.concesionario.proyecto_concesionario.Controller;
 
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundException;
@@ -23,43 +23,47 @@ import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/resenas")
 public class ResenaControlador {
 
     private final ResenaServicio resenaServicio;
 
-    @Autowired
     public ResenaControlador(ResenaServicio resenaServicio) {
         this.resenaServicio = resenaServicio;
     }
 
-    // Endpoints CRUD
-
-    @GetMapping("/resenas")
-    public List<Resena> obtenerTodasResenas() {
-        return resenaServicio.obtenerTodasResenas();
+    @GetMapping
+    public ResponseEntity<List<Resena>> obtenerTodasResenas(
+            @RequestParam(required = false) Integer pagina,
+            @RequestParam(required = false) Integer tamaño) {
+        
+        if (pagina != null && tamaño != null) {
+            return ResponseEntity.ok(resenaServicio.obtenerResenasPaginadas(pagina, tamaño).getContent());
+        }
+        return ResponseEntity.ok(resenaServicio.obtenerTodasResenas());
     }
 
-    @GetMapping("/resena/{resenaId}")
-    public ResponseEntity<Resena> obtenerResenaPorId(@PathVariable Long resenaId) throws ResourceNotFoundException {
-        return resenaServicio.obtenerResenaPorId(resenaId);
+    @GetMapping("/{id}")
+    public ResponseEntity<Resena> obtenerResenaPorId(@PathVariable Long id) throws ResourceNotFoundException {
+        return ResponseEntity.ok(resenaServicio.obtenerResenaPorId(id));
     }
 
-    @PostMapping("/crear/resena")
-    public Resena crearResena(@Valid @RequestBody Resena resena) {
-        return resenaServicio.crearResena(resena);
+    @PostMapping
+    public ResponseEntity<Resena> crearResena(@Valid @RequestBody Resena resena) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(resenaServicio.crearResena(resena));
     }
 
-    @PutMapping("/resena/{resenaId}/actualizar")
-    public ResponseEntity<Resena> actualizarResena(@PathVariable Long resenaId, @Valid @RequestBody Resena resenaDetalles) throws ResourceNotFoundException {
-        return resenaServicio.actualizarResena(resenaId, resenaDetalles);
+    @PutMapping("/{id}")
+    public ResponseEntity<Resena> actualizarResena(
+            @PathVariable Long id, 
+            @Valid @RequestBody Resena resenaDetalles) throws ResourceNotFoundException {
+        return ResponseEntity.ok(resenaServicio.actualizarResena(id, resenaDetalles));
     }
 
-    @DeleteMapping("/resena/{resenaId}/eliminar")
-    public Map<String, Boolean> eliminarResena(@PathVariable Long resenaId) throws ResourceNotFoundException {
-        return resenaServicio.eliminarResena(resenaId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarResena(@PathVariable Long id) throws ResourceNotFoundException {
+        resenaServicio.eliminarResena(id);
+        return ResponseEntity.noContent().build();
     }
-
-    // Otros endpoints
-
 }

@@ -3,7 +3,6 @@ package com.atos.concesionario.proyecto_concesionario.Controller;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,39 +22,40 @@ import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/usuarios")
 public class UsuarioControlador {
+    
 
     private final UsuarioServicio usuarioServicio;
 
-    @Autowired
+
     public UsuarioControlador(UsuarioServicio usuarioServicio) {
         this.usuarioServicio = usuarioServicio;
     }
 
     // Endpoints CRUD
-
-    @GetMapping("/usuarios")
-    public List<Usuario> obtenerTodosUsuarios() {
-        return usuarioServicio.obtenerTodosUsuarios();
+    @GetMapping
+    public ResponseEntity<List<Usuario>> obtenerTodosUsuarios() {
+        return ResponseEntity.ok(usuarioServicio.obtenerUsuarios());
     }
+    
 
-    @GetMapping("/usuario/{usuarioId}")
+    @GetMapping("/{id}")
     public ResponseEntity<Usuario> obtenerUsuarioPorId(@PathVariable Long usuarioId) throws ResourceNotFoundException {
         return usuarioServicio.obtenerUsuarioPorId(usuarioId);
     }
 
-    @PostMapping("/crear/usuario")
+    @PostMapping
     public Usuario crearUsuario(@Valid @RequestBody Usuario usuario) {
         return usuarioServicio.crearUsuario(usuario);
     }
 
-    @PutMapping("/usuario/{usuarioId}/actualizar")
+    @PutMapping("/{id}")
     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long usuarioId, @Valid @RequestBody Usuario usuarioDetalles) throws ResourceNotFoundException {
         return usuarioServicio.actualizarUsuario(usuarioId, usuarioDetalles);
     }
 
-    @DeleteMapping("/usuario/{usuarioId}/eliminar")
+    @DeleteMapping("/{id}")
     public Map<String, Boolean> eliminarUsuario(@PathVariable Long usuarioId) throws ResourceNotFoundException {
         return usuarioServicio.eliminarUsuario(usuarioId);
     }
