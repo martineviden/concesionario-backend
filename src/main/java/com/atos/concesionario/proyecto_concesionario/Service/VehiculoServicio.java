@@ -17,17 +17,14 @@ public class VehiculoServicio {
 
     private final VehiculoRepositorio vehiculoRepositorio;
 
-
     public VehiculoServicio(VehiculoRepositorio vehiculoRepositorio) {
         this.vehiculoRepositorio = vehiculoRepositorio;
     }
 
+    // Métodos CRUD
+
     public List<Vehiculo> obtenerTodosVehiculos() {
         return vehiculoRepositorio.findAll();
-    }
-
-    public List<Vehiculo> obtenerVehiculosDisponibles() {
-        return vehiculoRepositorio.findByDisponibilidadTrue();
     }
 
     public ResponseEntity<Vehiculo> obtenerVehiculoPorMatricula(String matricula) throws ResourceNotFoundException {
@@ -72,8 +69,14 @@ public class VehiculoServicio {
         return respuesta;
     }
 
+    // Otros métodos
+
+    public List<Vehiculo> obtenerVehiculosDisponibles() {
+        return vehiculoRepositorio.findByDisponibilidad(true);
+    }
+
     public List<Vehiculo> obtenerVehiculosPorTipo(TipoVehiculo.Tipo tipo) {
-        return vehiculoRepositorio.findByTipoVehiculoTipo(tipo);
+        return vehiculoRepositorio.findByTipoVehiculo(tipo);
     }
 
     public List<Vehiculo> buscarVehiculosPorMarca(String marca) {
