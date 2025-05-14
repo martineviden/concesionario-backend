@@ -51,7 +51,7 @@ public class UsuarioControlador {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long usuarioId, @RequestBody Usuario usuarioDetalles) throws ResourceNotFoundException {
+    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long usuarioId, @Valid @RequestBody Usuario usuarioDetalles) throws ResourceNotFoundException {
         return usuarioServicio.actualizarUsuario(usuarioId, usuarioDetalles);
     }
 
