@@ -37,15 +37,19 @@ public class ResenaServicio {
     }
 
     public Resena actualizarResena(Long id, Resena resenaDetalles) throws ResourceNotFoundException {
-        Resena resena = obtenerResenaPorId(id);
+    	 if (resenaDetalles.getTexto() == null || resenaDetalles.getPuntuacion() == null) {
+    	        throw new IllegalArgumentException("Texto y puntuación son requeridos");
+    	    }
+    	Resena resena = obtenerResenaPorId(id);
         // Actualizar campos
         resena.setTexto(resenaDetalles.getTexto());
         resena.setPuntuacion(resenaDetalles.getPuntuacion());
         return resenaRepositorio.save(resena);
     }
 
-    public void eliminarResena(Long id) throws ResourceNotFoundException {
+    public boolean eliminarResena(Long id) throws ResourceNotFoundException {
         Resena resena = obtenerResenaPorId(id);
         resenaRepositorio.delete(resena);
+        return true;
     }
 }
