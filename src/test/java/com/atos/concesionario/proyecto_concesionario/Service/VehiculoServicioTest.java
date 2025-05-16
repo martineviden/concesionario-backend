@@ -1,11 +1,15 @@
 package com.atos.concesionario.proyecto_concesionario.Service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -84,6 +88,61 @@ public class VehiculoServicioTest {
 
         assertEquals(100000, response.getBody().getKilometraje());
         verify(vehiculoRepositorio).findById("123ABC");
+    }
+
+    @Test
+    void obtenerVehiculoPorMatricula_deberiaLanzarExcepcion() {
+        when(vehiculoRepositorio.findById("matriculanula")).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> {
+            vehiculoServicio.obtenerVehiculoPorMatricula("matriculanula");
+        });
+    }
+
+    @Test
+    void crearVehiculo_deberiaGuardarYRetornarVehiculo() {
+        when(vehiculoRepositorio.save(vehiculo)).thenReturn(vehiculo);
+
+        Vehiculo resultado = vehiculoServicio.crearVehiculo(vehiculo);
+
+        assertEquals(Combustible.GASOLINA, resultado.getCombustible());
+        verify(vehiculoRepositorio).save(vehiculo);
+    }
+
+    @Test
+    void actualizarVehiculo_deberiaActualizarYRetornarVehiculo() throws ResourceNotFoundException {
+        Vehiculo vehiculoActualizado = new Vehiculo();
+        
+        vehiculoActualizado.setMatricula("923ABZ");
+        vehiculoActualizado.setTipoVehiculo(tipoVehiculo);
+        vehiculoActualizado.setColor("Negro");
+        vehiculoActualizado.setKilometraje(250000);
+        vehiculoActualizado.setDisponibilidad(true);
+        vehiculoActualizado.setCombustible(Combustible.ELECTRICO);
+        vehiculoActualizado.setEtiqueta(EtiquetaAmbiental.CERO);
+        vehiculoActualizado.setAutonomia(300);
+        vehiculoActualizado.setPuertas(5);
+        vehiculoActualizado.setAireAcondicionado(true);
+        vehiculoActualizado.setPlazas(5);
+        vehiculoActualizado.setTransmision(Transmision.AUTOMATICO);
+
+        when(vehiculoRepositorio.findById("923ABZ")).thenReturn(Optional.of(vehiculo));
+        when(vehiculoRepositorio.save(any())).thenReturn(vehiculoActualizado);
+
+        ResponseEntity<Vehiculo> response = vehiculoServicio.actualizarVehiculo("923ABZ", vehiculoActualizado);
+
+        assertEquals(Combustible.ELECTRICO, response.getBody().getCombustible());
+        verify(vehiculoRepositorio).save(any());
+    }
+
+    @Test
+    void eliminarVehiculo_deberiaEliminarYRetornarConfirmacion() throws ResourceNotFoundException {
+        when(vehiculoRepositorio.findById("923ABZ")).thenReturn(Optional.of(vehiculo));
+
+        Map<String, Boolean> resultado = vehiculoServicio.eliminarVehiculo("923ABZ");
+
+        assertTrue(resultado.get("Vehiculo eliminado"));
+        verify(vehiculoRepositorio).delete(vehiculo);
     }
 
 }
