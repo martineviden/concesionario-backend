@@ -10,6 +10,10 @@ import lombok.*;
 @Data
 public class Vehiculo {
 
+	public enum Combustible {
+		GASOLINA, DIESEL, GLP, ELECTRICO
+	}
+
 	public enum Transmision {
 		MANUAL, AUTOMATICO
 	}
@@ -39,8 +43,9 @@ public class Vehiculo {
 	@Column(name = "disponibilidad")
 	private Boolean disponibilidad;
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "combustible")
-	private String combustible;
+	private Combustible combustible;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "etiqueta")
@@ -49,8 +54,7 @@ public class Vehiculo {
 	@Column(name = "autonomia")
 	private Integer autonomia;
 
-	
-	 // Campos condicionales según tipo
+	// Campos condicionales según tipo
 	@Column(name = "puertas")
 	private Integer puertas;
 

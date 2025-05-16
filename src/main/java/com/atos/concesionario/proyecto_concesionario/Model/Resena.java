@@ -6,7 +6,6 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-
 @Entity
 @Table(name = "resena")
 @Data
@@ -28,7 +27,6 @@ public class Resena {
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
 
-
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
@@ -42,5 +40,4 @@ public class Resena {
     @JoinColumn(name = "id_reserva")
     private Reserva reserva;
 
-    
 }
