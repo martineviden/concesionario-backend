@@ -37,8 +37,7 @@ public class VehiculoServicio {
         return vehiculoRepositorio.save(vehiculo);
     }
 
-    public ResponseEntity<Vehiculo> actualizarVehiculo(String matricula, Vehiculo detallesVehiculo) 
-        throws ResourceNotFoundException {
+    public ResponseEntity<Vehiculo> actualizarVehiculo(String matricula, Vehiculo detallesVehiculo) throws ResourceNotFoundException {
         Vehiculo vehiculo = vehiculoRepositorio.findById(matricula)
             .orElseThrow(() -> new ResourceNotFoundException("Vehículo con matrícula " + matricula + " no encontrado"));
 

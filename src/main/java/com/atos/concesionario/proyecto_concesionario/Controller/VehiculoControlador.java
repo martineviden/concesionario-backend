@@ -27,8 +27,7 @@ public class VehiculoControlador {
 	}
 
 	@GetMapping("/{matricula}")
-	public ResponseEntity<Vehiculo> obtenerVehiculoPorMatricula(@PathVariable String matricula)
-			throws ResourceNotFoundException {
+	public ResponseEntity<Vehiculo> obtenerVehiculoPorMatricula(@PathVariable String matricula) throws ResourceNotFoundException {
 		return vehiculoServicio.obtenerVehiculoPorMatricula(matricula);
 	}
 

@@ -86,7 +86,7 @@ class ResenaServicioTest {
         when(resenaRepositorio.findById(id)).thenReturn(Optional.of(resena));
 
         // Act
-        Resena resultado = resenaServicio.obtenerResenaPorId(id);
+        Resena resultado = resenaServicio.obtenerResenaPorId(id).getBody();
 
         // Assert
         assertNotNull(resultado);
@@ -155,7 +155,7 @@ class ResenaServicioTest {
         when(resenaRepositorio.save(resenaExistente)).thenReturn(resenaExistente);
 
         // Act
-        Resena resultado = resenaServicio.actualizarResena(id, nuevosDatos);
+        Resena resultado = resenaServicio.actualizarResena(id, nuevosDatos).getBody();
 
         // Assert
         assertEquals("Actualizada", resultado.getTexto());

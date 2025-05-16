@@ -4,7 +4,6 @@ import lombok.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
-
 @Entity
 @Table(name = "reserva")
 @Data

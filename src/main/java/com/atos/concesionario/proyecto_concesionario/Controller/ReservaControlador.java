@@ -1,8 +1,8 @@
 package com.atos.concesionario.proyecto_concesionario.Controller;
 
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,37 +26,32 @@ public class ReservaControlador {
 
     private final ReservaServicio reservaServicio;
 
-
     public ReservaControlador(ReservaServicio reservaServicio) {
         this.reservaServicio = reservaServicio;
     }
 
     @GetMapping
-    public ResponseEntity<List<Reserva>> obtenerTodasReservas() {
-        return ResponseEntity.ok(reservaServicio.obtenerTodasReservas());
+    public List<Reserva> obtenerTodasReservas() {
+        return reservaServicio.obtenerTodasReservas();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Reserva> obtenerReservaPorId(@PathVariable Long id) throws ResourceNotFoundException {
-        return ResponseEntity.ok(reservaServicio.obtenerReservaPorId(id));
+        return reservaServicio.obtenerReservaPorId(id);
     }
 
     @PostMapping
-    public ResponseEntity<Reserva> crearReserva(@RequestBody Reserva reserva) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(reservaServicio.crearReserva(reserva));
+    public Reserva crearReserva(@RequestBody Reserva reserva) {
+        return reservaServicio.crearReserva(reserva);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Reserva> actualizarReserva(
-            @PathVariable Long id,
-            @RequestBody Reserva reservaDetalles) throws ResourceNotFoundException {
-        return ResponseEntity.ok(reservaServicio.actualizarReserva(id, reservaDetalles));
+    public ResponseEntity<Reserva> actualizarReserva(@PathVariable Long id, @RequestBody Reserva reservaDetalles) throws ResourceNotFoundException {
+        return reservaServicio.actualizarReserva(id, reservaDetalles);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarReserva(@PathVariable Long id) throws ResourceNotFoundException {
-        reservaServicio.eliminarReserva(id);
-        return ResponseEntity.noContent().build();
+    public Map<String, Boolean> eliminarReserva(@PathVariable Long id) throws ResourceNotFoundException {
+        return reservaServicio.eliminarReserva(id);
     }
 }
