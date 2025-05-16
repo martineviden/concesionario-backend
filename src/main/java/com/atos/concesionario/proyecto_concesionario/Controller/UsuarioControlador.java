@@ -35,7 +35,7 @@ public class UsuarioControlador {
     // Endpoints CRUD
     @GetMapping
     public ResponseEntity<List<Usuario>> obtenerTodosUsuarios() {
-        return ResponseEntity.ok(usuarioServicio.obtenerUsuarios());
+        return ResponseEntity.ok(usuarioServicio.obtenerTodosUsuarios());
     }
     
 

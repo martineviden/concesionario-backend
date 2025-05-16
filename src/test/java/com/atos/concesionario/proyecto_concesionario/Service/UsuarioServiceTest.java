@@ -1,4 +1,5 @@
 package com.atos.concesionario.proyecto_concesionario.Service;
+
 import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundException;
 import com.atos.concesionario.proyecto_concesionario.Model.Usuario;
 import com.atos.concesionario.proyecto_concesionario.Repository.UsuarioRepositorio;
@@ -42,7 +43,7 @@ public class UsuarioServiceTest {
     void obtenerTodosUsuarios_deberiaRetornarLista() {
         when(usuarioRepositorio.findAll()).thenReturn(List.of(usuario));
 
-        List<Usuario> resultado = usuarioServicio.obtenerUsuarios();
+        List<Usuario> resultado = usuarioServicio.obtenerTodosUsuarios();
 
         assertEquals(1, resultado.size());
         verify(usuarioRepositorio, times(1)).findAll();

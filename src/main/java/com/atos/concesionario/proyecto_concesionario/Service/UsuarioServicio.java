@@ -25,7 +25,7 @@ public class UsuarioServicio {
 
     // Métodos CRUD
 
-    public List<Usuario> obtenerUsuarios() {
+    public List<Usuario> obtenerTodosUsuarios() {
     	return usuarioRepositorio.findAll();
     }
 
