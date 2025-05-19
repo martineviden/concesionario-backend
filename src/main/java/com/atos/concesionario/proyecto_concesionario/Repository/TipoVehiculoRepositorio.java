@@ -6,4 +6,5 @@ import com.atos.concesionario.proyecto_concesionario.Model.TipoVehiculo;
 
 @Repository
 public interface TipoVehiculoRepositorio extends JpaRepository<TipoVehiculo, Long> {
+    
 }

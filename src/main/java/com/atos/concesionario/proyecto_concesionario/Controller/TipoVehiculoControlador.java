@@ -27,8 +27,7 @@ public class TipoVehiculoControlador {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<TipoVehiculo> obtenerTipoVehiculoPorId(@PathVariable Long id)
-			throws ResourceNotFoundException {
+	public ResponseEntity<TipoVehiculo> obtenerTipoVehiculoPorId(@PathVariable Long id) throws ResourceNotFoundException {
 		return tipoVehiculoServicio.obtenerTipoVehiculoPorId(id);
 	}
 

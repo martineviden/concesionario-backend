@@ -33,6 +33,10 @@ public class VehiculoServicio {
         return ResponseEntity.ok().body(vehiculo);
     }
 
+    public List<Vehiculo> obtenerVehiculosPorUbicacion(String ubicacion) throws ResourceNotFoundException {
+		return vehiculoRepositorio.findByUbicacion(ubicacion);
+	}
+
     public Vehiculo crearVehiculo(Vehiculo vehiculo) {
         return vehiculoRepositorio.save(vehiculo);
     }

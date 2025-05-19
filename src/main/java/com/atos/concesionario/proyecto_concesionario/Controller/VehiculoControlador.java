@@ -13,7 +13,7 @@ import com.atos.concesionario.proyecto_concesionario.Service.VehiculoServicio;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api/vehiculos")
+@RequestMapping("/vehiculos")
 public class VehiculoControlador {
 	private final VehiculoServicio vehiculoServicio;
 
@@ -29,6 +29,11 @@ public class VehiculoControlador {
 	@GetMapping("/{matricula}")
 	public ResponseEntity<Vehiculo> obtenerVehiculoPorMatricula(@PathVariable String matricula) throws ResourceNotFoundException {
 		return vehiculoServicio.obtenerVehiculoPorMatricula(matricula);
+	}
+
+	@GetMapping("/ubicacion/{ubicacion}")
+	public List<Vehiculo> obtenerVehiculosPorUbicacion(@PathVariable String ubicacion) throws ResourceNotFoundException {
+		return vehiculoServicio.obtenerVehiculosPorUbicacion(ubicacion);
 	}
 
 	@PostMapping
