@@ -86,6 +86,10 @@ public class VehiculoServicio {
         return vehiculoRepositorio.findByMarcaContainingIgnoreCase(marca);
     }
     
+    public List<Vehiculo> buscarPorTipoYUbicacion(TipoVehiculo.Tipo tipo, String ubicacion) {
+        return vehiculoRepositorio.findByTipoVehiculo_TipoAndUbicacion(tipo, ubicacion);
+    }
+    
     // Métodos adicionales podrían incluir:
     // - Buscar vehículos por rango de precio
     // - Actualizar disponibilidad

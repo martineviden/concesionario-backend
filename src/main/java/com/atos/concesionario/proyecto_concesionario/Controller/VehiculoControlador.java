@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundException;
+import com.atos.concesionario.proyecto_concesionario.Model.TipoVehiculo;
 import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo;
 import com.atos.concesionario.proyecto_concesionario.Service.VehiculoServicio;
 
@@ -50,5 +51,12 @@ public class VehiculoControlador {
 	@DeleteMapping("/{matricula}")
 	public Map<String, Boolean> eliminarVehiculo(@PathVariable String matricula) throws ResourceNotFoundException {
 		return vehiculoServicio.eliminarVehiculo(matricula);
+	}
+	
+	@GetMapping("/buscar")
+	public List<Vehiculo> buscarPorTipoYUbicacion(
+	        @RequestParam TipoVehiculo.Tipo tipo,
+	        @RequestParam String ubicacion) {
+	    return vehiculoServicio.buscarPorTipoYUbicacion(tipo, ubicacion);
 	}
 }

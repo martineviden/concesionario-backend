@@ -19,5 +19,5 @@ public interface VehiculoRepositorio extends JpaRepository<Vehiculo, String> {
 
     List<Vehiculo> findByMarcaContainingIgnoreCase(String marca);
 
-
+    List<Vehiculo> findByTipoVehiculo_TipoAndUbicacion(TipoVehiculo.Tipo tipo, String ubicacion);
 }
