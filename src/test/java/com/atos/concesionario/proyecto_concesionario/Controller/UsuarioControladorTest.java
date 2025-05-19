@@ -5,6 +5,7 @@ import com.atos.concesionario.proyecto_concesionario.Model.Usuario;
 import com.atos.concesionario.proyecto_concesionario.SecurityDisabledTestConfig;
 import com.atos.concesionario.proyecto_concesionario.Service.UsuarioServicio;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,15 @@ class UsuarioControladorTest {
     }
 
     @Test
+    void obtenerUsuarioPorId_deberiaRetornarUsuario() throws Exception {
+        when(usuarioServicio.obtenerUsuarioPorId(1L)).thenReturn(ResponseEntity.ok(usuario));
+
+        mockMvc.perform(get("/usuarios/1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.correo").value("test@mail.com"));
+    }
+
+    @Test
     void crearUsuario_deberiaRetornarUsuarioCreado() throws Exception {
         when(usuarioServicio.crearUsuario(any(Usuario.class))).thenReturn(usuario);
 
@@ -66,15 +76,6 @@ class UsuarioControladorTest {
             .content(objectMapper.writeValueAsString(usuario)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.correo").value("test@mail.com"));
-    }
-
-    @Test
-    void obtenerUsuarioPorId_deberiaRetornarUsuario() throws Exception {
-        when(usuarioServicio.obtenerUsuarioPorId(1L)).thenReturn(ResponseEntity.ok(usuario));
-
-        mockMvc.perform(get("/usuarios/1"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.correo").value("test@mail.com"));
     }
 
     @Test

@@ -81,6 +81,15 @@ class VehiculoControladorTest {
     }
 
     @Test
+    void obtenerVehiculoPorMatricula_deberiaRetornarVehiculo() throws Exception {
+        when(vehiculoServicio.obtenerVehiculoPorMatricula("123ABC")).thenReturn(ResponseEntity.ok(vehiculo));
+
+        mockMvc.perform(get("/vehiculos/123ABC"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.color").value("Blanco"));
+    }
+
+    @Test
     void crearVehiculo_deberiaRetornarVehiculoCreado() throws Exception {
         when(vehiculoServicio.crearVehiculo(any(Vehiculo.class))).thenReturn(vehiculo);
 
@@ -89,15 +98,6 @@ class VehiculoControladorTest {
             .content(objectMapper.writeValueAsString(vehiculo)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.color").value("Blanco"));
-    }
-
-    @Test
-    void obtenerVehiculoPorMatricula_deberiaRetornarVehiculo() throws Exception {
-        when(vehiculoServicio.obtenerVehiculoPorMatricula("123ABC")).thenReturn(ResponseEntity.ok(vehiculo));
-
-        mockMvc.perform(get("/vehiculos/123ABC"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.color").value("Blanco"));
     }
 
     @Test

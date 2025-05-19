@@ -103,6 +103,15 @@ class ReservaControladorTest {
     }
 
     @Test
+    void obtenerReservaPorId_deberiaRetornarReserva() throws Exception {
+        when(reservaServicio.obtenerReservaPorId(1L)).thenReturn(ResponseEntity.ok(reserva));
+
+        mockMvc.perform(get("/reservas/1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.precio").value(20.0));
+    }
+
+    @Test
     void crearReserva_deberiaRetornarReservaCreada() throws Exception {
         when(reservaServicio.crearReserva(any(Reserva.class))).thenReturn(reserva);
 
@@ -111,15 +120,6 @@ class ReservaControladorTest {
             .content(objectMapper.writeValueAsString(reserva)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.precio").value(20.0));
-    }
-
-    @Test
-    void obtenerReservaPorId_deberiaRetornarReserva() throws Exception {
-        when(reservaServicio.obtenerReservaPorId(1L)).thenReturn(ResponseEntity.ok(reserva));
-
-        mockMvc.perform(get("/reservas/1"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.precio").value(20.0));
     }
 
     @Test
