@@ -7,12 +7,6 @@ import com.atos.concesionario.proyecto_concesionario.Service.UsuarioServicio;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
@@ -21,6 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.*;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -32,8 +30,8 @@ class UsuarioControladorTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Mock
-    private UsuarioServicio usuarioServicio;
+    @Autowired
+    private UsuarioServicio usuarioServicio; // ✅ Inyectado desde GlobalTestConfig
 
     private Usuario usuario;
     private ObjectMapper objectMapper;
@@ -98,6 +96,6 @@ class UsuarioControladorTest {
 
         mockMvc.perform(delete("/usuarios/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.['Usuario eliminado']").value(true));
+                .andExpect(jsonPath("$['Usuario eliminado']").value(true));
     }
 }
