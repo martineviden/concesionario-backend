@@ -102,9 +102,7 @@ class ResenaServicioTest {
         when(resenaRepositorio.findById(id)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(ResourceNotFoundException.class, () -> {
-            resenaServicio.obtenerResenaPorId(id);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> resenaServicio.obtenerResenaPorId(id));
     }
 
     @Test
@@ -158,6 +156,7 @@ class ResenaServicioTest {
         Resena resultado = resenaServicio.actualizarResena(id, nuevosDatos).getBody();
 
         // Assert
+        assertNotNull(resultado);
         assertEquals("Actualizada", resultado.getTexto());
         assertEquals(5, resultado.getPuntuacion());
         verify(resenaRepositorio, times(1)).findById(id);
@@ -165,7 +164,7 @@ class ResenaServicioTest {
     }
 
     @Test
-    void eliminarResena_debeEliminarCorrectamente() throws ResourceNotFoundException {
+    void eliminarResena_debeEliminarCorrectamente() {
         // Arrange
         Long id = 1L;
         Resena resena = Resena.builder()

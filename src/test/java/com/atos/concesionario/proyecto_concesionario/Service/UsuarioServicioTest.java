@@ -55,6 +55,7 @@ public class UsuarioServicioTest {
 
         ResponseEntity<Usuario> response = usuarioServicio.obtenerUsuarioPorId(1L);
 
+        assertNotNull(response.getBody());
         assertEquals("test@mail.com", response.getBody().getCorreo());
         verify(usuarioRepositorio).findById(1L);
     }
@@ -63,9 +64,7 @@ public class UsuarioServicioTest {
     void obtenerUsuarioPorId_deberiaLanzarExcepcion() {
         when(usuarioRepositorio.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            usuarioServicio.obtenerUsuarioPorId(1L);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> usuarioServicio.obtenerUsuarioPorId(1L));
     }
 
     @Test
@@ -94,6 +93,7 @@ public class UsuarioServicioTest {
 
         ResponseEntity<Usuario> response = usuarioServicio.actualizarUsuario(1L, actualizado);
 
+        assertNotNull(response.getBody());
         assertEquals("nuevo@mail.com", response.getBody().getCorreo());
         verify(usuarioRepositorio).save(any());
     }
