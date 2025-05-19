@@ -83,9 +83,7 @@ public class VehiculoServicio {
         return vehiculoRepositorio.findByTipoVehiculo(tipo);
     }
 
-    public List<Vehiculo> buscarVehiculosPorMarca(String marca) {
-        return vehiculoRepositorio.findByMarcaContainingIgnoreCase(marca);
-    }
+
     
     public List<Vehiculo> buscarPorTipoYUbicacion(TipoVehiculo.Tipo tipo, String ubicacion) {
         return vehiculoRepositorio.findByTipoVehiculo_TipoAndUbicacion(tipo, ubicacion);
