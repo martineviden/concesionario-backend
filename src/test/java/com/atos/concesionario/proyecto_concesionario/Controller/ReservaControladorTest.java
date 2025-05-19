@@ -13,6 +13,7 @@ import com.atos.concesionario.proyecto_concesionario.Model.Usuario.Rol;
 import com.atos.concesionario.proyecto_concesionario.SecurityDisabledTestConfig;
 import com.atos.concesionario.proyecto_concesionario.Service.ReservaServicio;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +92,7 @@ class ReservaControladorTest {
         reserva.setPrecio(20.0);
 
         objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
     }
 
     @Test
