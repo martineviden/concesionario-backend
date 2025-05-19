@@ -26,6 +26,19 @@ public class Vehiculo {
 	    }
 	}
 
+	public enum Provincia {
+		ALAVA, ALBACETE, ALICANTE, ALMERIA, ASTURIAS,
+		AVILA, BADAJOZ, BARCELONA, BURGOS, CACERES,
+		CADIZ, CANTABRIA, CASTELLON, CIUDADREAL, CORDOBA,
+		LACORUNA, CUENCA, GERONA, GRANADA, GUADALAJARA,
+		GUIPUZCOA, HUELVA, HUESCA, BALEARES, JAEN,
+		LEON, LERIDA, LUGO, MADRID, MALAGA,
+		MURCIA, NAVARRA, ORENSE, PALENCIA, LASPALMAS,
+		PONTEVEDRA, LARIOJA, SALAMANCA, SEGOVIA, SEVILLA,
+		SORIA, TARRAGONA, SANTACRUZDETENERIFE, TERUEL, TOLEDO,
+		VALENCIA, VALLADOLID, VIZCAYA, ZAMORA, ZARAGOZA
+	}
+
 	@Id
 	@Column(name = "matricula", nullable = false, unique = true)
 	private String matricula;
@@ -42,6 +55,9 @@ public class Vehiculo {
 
 	@Column(name = "disponibilidad")
 	private Boolean disponibilidad;
+
+	@Column(name = "ubicacion")
+	private Provincia ubicacion;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "combustible")
