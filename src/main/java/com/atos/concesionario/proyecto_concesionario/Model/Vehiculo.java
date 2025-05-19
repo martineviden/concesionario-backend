@@ -56,6 +56,7 @@ public class Vehiculo {
 	@Column(name = "disponibilidad")
 	private Boolean disponibilidad;
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "ubicacion")
 	private Provincia ubicacion;
 
