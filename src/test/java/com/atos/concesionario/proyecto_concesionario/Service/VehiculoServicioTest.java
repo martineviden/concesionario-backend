@@ -25,6 +25,7 @@ import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo;
 import com.atos.concesionario.proyecto_concesionario.Model.TipoVehiculo.Tipo;
 import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo.Combustible;
 import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo.EtiquetaAmbiental;
+import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo.Provincia;
 import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo.Transmision;
 import com.atos.concesionario.proyecto_concesionario.Repository.TipoVehiculoRepositorio;
 import com.atos.concesionario.proyecto_concesionario.Repository.VehiculoRepositorio;
@@ -61,6 +62,7 @@ public class VehiculoServicioTest {
         vehiculo.setColor("Blanco");
         vehiculo.setKilometraje(100000);
         vehiculo.setDisponibilidad(true);
+        vehiculo.setUbicacion(Provincia.MADRID);
         vehiculo.setCombustible(Combustible.GASOLINA);
         vehiculo.setEtiqueta(EtiquetaAmbiental.C);
         vehiculo.setAutonomia(400);

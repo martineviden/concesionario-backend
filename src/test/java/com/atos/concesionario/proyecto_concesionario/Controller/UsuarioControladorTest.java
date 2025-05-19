@@ -31,7 +31,7 @@ class UsuarioControladorTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private UsuarioServicio usuarioServicio; // ✅ Inyectado desde GlobalTestConfig
+    private UsuarioServicio usuarioServicio;
 
     private Usuario usuario;
     private ObjectMapper objectMapper;
@@ -52,8 +52,8 @@ class UsuarioControladorTest {
         when(usuarioServicio.obtenerTodosUsuarios()).thenReturn(List.of(usuario));
 
         mockMvc.perform(get("/usuarios"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].correo").value("test@mail.com"));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].correo").value("test@mail.com"));
     }
 
     @Test
@@ -61,8 +61,8 @@ class UsuarioControladorTest {
         when(usuarioServicio.crearUsuario(any(Usuario.class))).thenReturn(usuario);
 
         mockMvc.perform(post("/usuarios")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(usuario)))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(usuario)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.correo").value("test@mail.com"));
     }
@@ -72,8 +72,8 @@ class UsuarioControladorTest {
         when(usuarioServicio.obtenerUsuarioPorId(1L)).thenReturn(ResponseEntity.ok(usuario));
 
         mockMvc.perform(get("/usuarios/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.correo").value("test@mail.com"));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.correo").value("test@mail.com"));
     }
 
     @Test
@@ -81,8 +81,8 @@ class UsuarioControladorTest {
         when(usuarioServicio.actualizarUsuario(eq(1L), any(Usuario.class))).thenReturn(ResponseEntity.ok(usuario));
 
         mockMvc.perform(put("/usuarios/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(usuario)))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(usuario)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.correo").value("test@mail.com"));
     }
@@ -95,7 +95,7 @@ class UsuarioControladorTest {
         when(usuarioServicio.eliminarUsuario(1L)).thenReturn(respuesta);
 
         mockMvc.perform(delete("/usuarios/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$['Usuario eliminado']").value(true));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$['Usuario eliminado']").value(true));
     }
 }
