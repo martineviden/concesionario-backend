@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -25,6 +26,7 @@ import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo;
 import com.atos.concesionario.proyecto_concesionario.Model.TipoVehiculo.Tipo;
 import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo.Combustible;
 import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo.EtiquetaAmbiental;
+import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo.Provincia;
 import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo.Transmision;
 import com.atos.concesionario.proyecto_concesionario.Repository.TipoVehiculoRepositorio;
 import com.atos.concesionario.proyecto_concesionario.Repository.VehiculoRepositorio;
@@ -61,6 +63,7 @@ public class VehiculoServicioTest {
         vehiculo.setColor("Blanco");
         vehiculo.setKilometraje(100000);
         vehiculo.setDisponibilidad(true);
+        vehiculo.setUbicacion(Provincia.MADRID);
         vehiculo.setCombustible(Combustible.GASOLINA);
         vehiculo.setEtiqueta(EtiquetaAmbiental.C);
         vehiculo.setAutonomia(400);
@@ -86,6 +89,7 @@ public class VehiculoServicioTest {
 
         ResponseEntity<Vehiculo> response = vehiculoServicio.obtenerVehiculoPorMatricula("123ABC");
 
+        Assertions.assertNotNull(response.getBody());
         assertEquals(100000, response.getBody().getKilometraje());
         verify(vehiculoRepositorio).findById("123ABC");
     }
@@ -94,9 +98,7 @@ public class VehiculoServicioTest {
     void obtenerVehiculoPorMatricula_deberiaLanzarExcepcion() {
         when(vehiculoRepositorio.findById("matriculanula")).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            vehiculoServicio.obtenerVehiculoPorMatricula("matriculanula");
-        });
+        assertThrows(ResourceNotFoundException.class, () -> vehiculoServicio.obtenerVehiculoPorMatricula("matriculanula"));
     }
 
     @Test
@@ -131,6 +133,7 @@ public class VehiculoServicioTest {
 
         ResponseEntity<Vehiculo> response = vehiculoServicio.actualizarVehiculo("923ABZ", vehiculoActualizado);
 
+        Assertions.assertNotNull(response.getBody());
         assertEquals(Combustible.ELECTRICO, response.getBody().getCombustible());
         verify(vehiculoRepositorio).save(any());
     }

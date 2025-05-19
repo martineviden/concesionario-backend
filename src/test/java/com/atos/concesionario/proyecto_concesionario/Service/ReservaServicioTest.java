@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -55,7 +56,6 @@ public class ReservaServicioTest {
     private Reserva reserva;
     private Usuario usuario;
     private Vehiculo vehiculo;
-    private TipoVehiculo tipoVehiculo;
 
     @BeforeEach
     void setUp() {
@@ -71,7 +71,7 @@ public class ReservaServicioTest {
         usuario.setTelefono("656747219");
         usuario.setRol(Rol.CLIENTE);
 
-        tipoVehiculo = new TipoVehiculo();
+        TipoVehiculo tipoVehiculo = new TipoVehiculo();
         
         tipoVehiculo.setMarca("Toyota");
         tipoVehiculo.setModelo("Corolla");
@@ -118,6 +118,7 @@ public class ReservaServicioTest {
 
         ResponseEntity<Reserva> response = reservaServicio.obtenerReservaPorId(1L);
 
+        Assertions.assertNotNull(response.getBody());
         assertEquals(20.0, response.getBody().getPrecio());
         verify(reservaRepositorio).findById(1L);
     }
@@ -126,9 +127,7 @@ public class ReservaServicioTest {
     void obtenerReservaPorId_deberiaLanzarExcepcion() {
         when(reservaRepositorio.findById(9999L)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            reservaServicio.obtenerReservaPorId(9999L);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> reservaServicio.obtenerReservaPorId(9999L));
     }
 
     @Test
@@ -137,7 +136,7 @@ public class ReservaServicioTest {
 
         Reserva resultado = reservaServicio.crearReserva(reserva);
 
-        assertEquals("2025-05-16", resultado.getFechaReserva());
+        assertEquals(LocalDate.of(2025, 5, 16), resultado.getFechaReserva());
         verify(reservaRepositorio).save(reserva);
     }
 
@@ -156,6 +155,7 @@ public class ReservaServicioTest {
 
         ResponseEntity<Reserva> response = reservaServicio.actualizarReserva(1L, reservaActualizada);
 
+        Assertions.assertNotNull(response.getBody());
         assertEquals(30.0, response.getBody().getPrecio());
         verify(reservaRepositorio).save(any());
     }

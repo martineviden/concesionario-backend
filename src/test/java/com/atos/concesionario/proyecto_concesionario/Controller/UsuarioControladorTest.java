@@ -5,14 +5,9 @@ import com.atos.concesionario.proyecto_concesionario.Model.Usuario;
 import com.atos.concesionario.proyecto_concesionario.SecurityDisabledTestConfig;
 import com.atos.concesionario.proyecto_concesionario.Service.UsuarioServicio;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
@@ -21,6 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.*;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -32,7 +31,7 @@ class UsuarioControladorTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @Autowired
     private UsuarioServicio usuarioServicio;
 
     private Usuario usuario;
@@ -41,6 +40,7 @@ class UsuarioControladorTest {
     @BeforeEach
     void setUp() {
         usuario = new Usuario();
+        
         usuario.setId(1L);
         usuario.setCorreo("test@mail.com");
         usuario.setNombre("Prueba");
@@ -54,19 +54,8 @@ class UsuarioControladorTest {
         when(usuarioServicio.obtenerTodosUsuarios()).thenReturn(List.of(usuario));
 
         mockMvc.perform(get("/usuarios"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].correo").value("test@mail.com"));
-    }
-
-    @Test
-    void crearUsuario_deberiaRetornarUsuarioCreado() throws Exception {
-        when(usuarioServicio.crearUsuario(any(Usuario.class))).thenReturn(usuario);
-
-        mockMvc.perform(post("/usuarios")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(usuario)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.correo").value("test@mail.com"));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].correo").value("test@mail.com"));
     }
 
     @Test
@@ -74,6 +63,17 @@ class UsuarioControladorTest {
         when(usuarioServicio.obtenerUsuarioPorId(1L)).thenReturn(ResponseEntity.ok(usuario));
 
         mockMvc.perform(get("/usuarios/1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.correo").value("test@mail.com"));
+    }
+
+    @Test
+    void crearUsuario_deberiaRetornarUsuarioCreado() throws Exception {
+        when(usuarioServicio.crearUsuario(any(Usuario.class))).thenReturn(usuario);
+
+        mockMvc.perform(post("/usuarios")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(usuario)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.correo").value("test@mail.com"));
     }
@@ -83,8 +83,8 @@ class UsuarioControladorTest {
         when(usuarioServicio.actualizarUsuario(eq(1L), any(Usuario.class))).thenReturn(ResponseEntity.ok(usuario));
 
         mockMvc.perform(put("/usuarios/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(usuario)))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(usuario)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.correo").value("test@mail.com"));
     }
@@ -97,7 +97,7 @@ class UsuarioControladorTest {
         when(usuarioServicio.eliminarUsuario(1L)).thenReturn(respuesta);
 
         mockMvc.perform(delete("/usuarios/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.['Usuario eliminado']").value(true));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$['Usuario eliminado']").value(true));
     }
 }

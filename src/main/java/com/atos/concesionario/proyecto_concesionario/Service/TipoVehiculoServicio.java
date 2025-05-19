@@ -26,7 +26,7 @@ public class TipoVehiculoServicio {
 
 	public ResponseEntity<TipoVehiculo> obtenerTipoVehiculoPorId(Long id) throws ResourceNotFoundException {
 		TipoVehiculo tipoVehiculo = tipoVehiculoRepositorio.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Tipo de vehículo con id " + id + " no encontrado"));
+				.orElseThrow(() -> new ResourceNotFoundException("Tipo de vehiculo con id " + id + " no encontrado"));
 		return ResponseEntity.ok().body(tipoVehiculo);
 	}
 
@@ -37,7 +37,7 @@ public class TipoVehiculoServicio {
 	public ResponseEntity<TipoVehiculo> actualizarTipoVehiculo(Long id, TipoVehiculo detallesTipoVehiculo)
 			throws ResourceNotFoundException {
 		TipoVehiculo tipoVehiculo = tipoVehiculoRepositorio.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Tipo de vehículo con id " + id + " no encontrado"));
+				.orElseThrow(() -> new ResourceNotFoundException("Tipo de vehiculo con id " + id + " no encontrado"));
 
 		tipoVehiculo.setMarca(detallesTipoVehiculo.getMarca());
 		tipoVehiculo.setModelo(detallesTipoVehiculo.getModelo());
@@ -51,12 +51,12 @@ public class TipoVehiculoServicio {
 
 	public Map<String, Boolean> eliminarTipoVehiculo(Long id) throws ResourceNotFoundException {
 		TipoVehiculo tipoVehiculo = tipoVehiculoRepositorio.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Tipo de vehículo con id " + id + " no encontrado"));
+				.orElseThrow(() -> new ResourceNotFoundException("Tipo de vehiculo con id " + id + " no encontrado"));
 
 		tipoVehiculoRepositorio.delete(tipoVehiculo);
 
 		Map<String, Boolean> respuesta = new HashMap<>();
-		respuesta.put("Tipo de vehículo eliminado", Boolean.TRUE);
+		respuesta.put("Tipo de vehiculo eliminado", Boolean.TRUE);
 		return respuesta;
 	}
 }

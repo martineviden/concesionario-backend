@@ -1,9 +1,6 @@
 package com.atos.concesionario.proyecto_concesionario;
 
-import com.atos.concesionario.proyecto_concesionario.Service.ResenaServicio;
-import com.atos.concesionario.proyecto_concesionario.Service.ReservaServicio;
-import com.atos.concesionario.proyecto_concesionario.Service.UsuarioServicio;
-import com.atos.concesionario.proyecto_concesionario.Service.VehiculoServicio;
+import com.atos.concesionario.proyecto_concesionario.Service.*;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -30,4 +27,10 @@ public class GlobalTestConfig {
     public ResenaServicio resenaServicio() {
         return Mockito.mock(ResenaServicio.class);
     }
+
+    @Bean
+    public TipoVehiculoServicio tipoVehiculoServicio() {
+        return Mockito.mock(TipoVehiculoServicio.class);
+    }
+
 }

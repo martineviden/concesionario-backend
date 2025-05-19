@@ -2,6 +2,7 @@ package com.atos.concesionario.proyecto_concesionario.Service;
 
 import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundException;
 import com.atos.concesionario.proyecto_concesionario.Model.Usuario;
+import com.atos.concesionario.proyecto_concesionario.Model.Usuario.Rol;
 import com.atos.concesionario.proyecto_concesionario.Repository.UsuarioRepositorio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,11 +33,13 @@ public class UsuarioServicioTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
         usuario = new Usuario();
+
         usuario.setId(1L);
         usuario.setCorreo("test@mail.com");
         usuario.setNombre("Nombre");
-        usuario.setRol(Usuario.Rol.CLIENTE);
+        usuario.setRol(Rol.CLIENTE);
     }
 
     @Test
@@ -55,6 +58,7 @@ public class UsuarioServicioTest {
 
         ResponseEntity<Usuario> response = usuarioServicio.obtenerUsuarioPorId(1L);
 
+        assertNotNull(response.getBody());
         assertEquals("test@mail.com", response.getBody().getCorreo());
         verify(usuarioRepositorio).findById(1L);
     }
@@ -63,9 +67,7 @@ public class UsuarioServicioTest {
     void obtenerUsuarioPorId_deberiaLanzarExcepcion() {
         when(usuarioRepositorio.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            usuarioServicio.obtenerUsuarioPorId(1L);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> usuarioServicio.obtenerUsuarioPorId(1L));
     }
 
     @Test
@@ -81,6 +83,7 @@ public class UsuarioServicioTest {
     @Test
     void actualizarUsuario_deberiaActualizarYRetornarUsuario() throws Exception {
         Usuario actualizado = new Usuario();
+        
         actualizado.setDni("12345678A");
         actualizado.setNombre("Nuevo");
         actualizado.setApellidos("Apellido");
@@ -94,6 +97,7 @@ public class UsuarioServicioTest {
 
         ResponseEntity<Usuario> response = usuarioServicio.actualizarUsuario(1L, actualizado);
 
+        assertNotNull(response.getBody());
         assertEquals("nuevo@mail.com", response.getBody().getCorreo());
         verify(usuarioRepositorio).save(any());
     }

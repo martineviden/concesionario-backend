@@ -63,14 +63,15 @@ public class VehiculoServicio {
 
     public Map<String, Boolean> eliminarVehiculo(String matricula) throws ResourceNotFoundException {
         Vehiculo vehiculo = vehiculoRepositorio.findById(matricula)
-            .orElseThrow(() -> new ResourceNotFoundException("Vehículo con matrícula " + matricula + " no encontrado"));
-        
+                .orElseThrow(() -> new ResourceNotFoundException("Vehículo no encontrado con matrícula: " + matricula));
+
         vehiculoRepositorio.delete(vehiculo);
 
         Map<String, Boolean> respuesta = new HashMap<>();
-        respuesta.put("Vehículo eliminado", Boolean.TRUE);
+        respuesta.put("Vehiculo eliminado", Boolean.TRUE);
         return respuesta;
     }
+
 
     // Otros métodos
 
