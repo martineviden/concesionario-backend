@@ -29,6 +29,7 @@ public class Resena {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
+    @JsonBackReference("usuario-resena")
     private Usuario usuario;
 
     @ManyToOne

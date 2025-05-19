@@ -16,7 +16,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class UsuarioServiceTest {
+public class UsuarioServicioTest {
 
     @Mock
     private UsuarioRepositorio usuarioRepositorio;

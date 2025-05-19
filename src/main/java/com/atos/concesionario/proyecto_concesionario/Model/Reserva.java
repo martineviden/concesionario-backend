@@ -1,5 +1,6 @@
 package com.atos.concesionario.proyecto_concesionario.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ public class Reserva {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
+    @JsonBackReference("usuario-reserva")
     private Usuario usuario;
 
     @Column(name = "fecha_reserva", nullable = false)

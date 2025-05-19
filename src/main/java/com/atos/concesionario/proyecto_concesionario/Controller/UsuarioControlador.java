@@ -39,7 +39,7 @@ public class UsuarioControlador {
     }
     
 
-    @GetMapping("/{id}")
+    @GetMapping("/{usuarioId}")
     public ResponseEntity<Usuario> obtenerUsuarioPorId(@PathVariable Long usuarioId) throws ResourceNotFoundException {
         return usuarioServicio.obtenerUsuarioPorId(usuarioId);
     }
@@ -49,12 +49,12 @@ public class UsuarioControlador {
         return usuarioServicio.crearUsuario(usuario);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{usuarioId}")
     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long usuarioId, @RequestBody Usuario usuarioDetalles) throws ResourceNotFoundException {
         return usuarioServicio.actualizarUsuario(usuarioId, usuarioDetalles);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{usuarioId}")
     public Map<String, Boolean> eliminarUsuario(@PathVariable Long usuarioId) throws ResourceNotFoundException {
         return usuarioServicio.eliminarUsuario(usuarioId);
     }
