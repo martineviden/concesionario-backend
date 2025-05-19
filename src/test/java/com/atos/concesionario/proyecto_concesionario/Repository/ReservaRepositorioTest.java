@@ -44,6 +44,7 @@ public class ReservaRepositorioTest {
     void setUp() {
         // Crear y guardar usuario
         usuario = new Usuario();
+
         usuario.setDni("12345678A");
         usuario.setNombre("Rubén");
         usuario.setApellidos("Gil");
@@ -51,18 +52,22 @@ public class ReservaRepositorioTest {
         usuario.setContrasena("654321");
         usuario.setTelefono("656747219");
         usuario.setRol(Rol.CLIENTE);
+
         usuarioRepositorio.save(usuario);
 
         // Crear y guardar tipo de vehículo
         TipoVehiculo tipoVehiculo = new TipoVehiculo();
+
         tipoVehiculo.setMarca("Toyota");
         tipoVehiculo.setModelo("Corolla");
         tipoVehiculo.setPrecio(20000);
         tipoVehiculo.setTipo(Tipo.COCHE);
+
         tipoVehiculoRepositorio.save(tipoVehiculo);
 
         // Crear y guardar vehículo
         vehiculo = new Vehiculo();
+
         vehiculo.setMatricula("123ABC");
         vehiculo.setTipoVehiculo(tipoVehiculo);
         vehiculo.setColor("Blanco");
@@ -76,34 +81,37 @@ public class ReservaRepositorioTest {
         vehiculo.setPlazas(5);
         vehiculo.setTransmision(Transmision.AUTOMATICO);
         vehiculo.setUbicacion(Vehiculo.Provincia.MADRID); // NECESARIO
+
         vehiculoRepositorio.save(vehiculo);
 
         // Crear y guardar reserva
         reserva = new Reserva();
+
         reserva.setVehiculo(vehiculo);
         reserva.setUsuario(usuario);
         reserva.setFechaReserva(LocalDate.of(2025, 5, 16));
         reserva.setDiasReserva(2);
         reserva.setPrecio(20.0);
+
         reservaRepositorio.save(reserva);
     }
 
     @Test
-    void testFindByUsuarioId() {
+    void obtenerReservasPorIdUsuario_deberiaRetornarLista() {
         List<Reserva> reservas = reservaRepositorio.findByUsuarioId(usuario.getId());
         assertEquals(1, reservas.size());
         assertEquals(usuario.getId(), reservas.get(0).getUsuario().getId());
     }
 
     @Test
-    void testFindByVehiculoMatricula() {
+    void obtenerReservasPorMatricula_deberiaRetornarLista() {
         List<Reserva> reservas = reservaRepositorio.findByVehiculoMatricula("123ABC");
         assertEquals(1, reservas.size());
         assertEquals("123ABC", reservas.get(0).getVehiculo().getMatricula());
     }
 
     @Test
-    void testFindByFechaReservaBetween() {
+    void obtenerReservasEntreFechas_deberiaRetornarLista() {
         LocalDate inicio = LocalDate.of(2025, 5, 1);
         LocalDate fin = LocalDate.of(2025, 5, 30);
         List<Reserva> reservas = reservaRepositorio.findByFechaReservaBetween(inicio, fin);
@@ -111,7 +119,7 @@ public class ReservaRepositorioTest {
     }
 
     @Test
-    void testFindByFechaReservaAfter() {
+    void obtenerReservasDespuesDeFecha_deberiaRetornarLista() {
         LocalDate fecha = LocalDate.of(2025, 5, 10);
         List<Reserva> reservas = reservaRepositorio.findByFechaReservaAfter(fecha);
         assertEquals(1, reservas.size());
