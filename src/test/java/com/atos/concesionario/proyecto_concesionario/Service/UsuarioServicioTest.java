@@ -2,6 +2,7 @@ package com.atos.concesionario.proyecto_concesionario.Service;
 
 import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundException;
 import com.atos.concesionario.proyecto_concesionario.Model.Usuario;
+import com.atos.concesionario.proyecto_concesionario.Model.Usuario.Rol;
 import com.atos.concesionario.proyecto_concesionario.Repository.UsuarioRepositorio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,11 +33,13 @@ public class UsuarioServicioTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
         usuario = new Usuario();
+
         usuario.setId(1L);
         usuario.setCorreo("test@mail.com");
         usuario.setNombre("Nombre");
-        usuario.setRol(Usuario.Rol.CLIENTE);
+        usuario.setRol(Rol.CLIENTE);
     }
 
     @Test
@@ -80,6 +83,7 @@ public class UsuarioServicioTest {
     @Test
     void actualizarUsuario_deberiaActualizarYRetornarUsuario() throws Exception {
         Usuario actualizado = new Usuario();
+        
         actualizado.setDni("12345678A");
         actualizado.setNombre("Nuevo");
         actualizado.setApellidos("Apellido");
