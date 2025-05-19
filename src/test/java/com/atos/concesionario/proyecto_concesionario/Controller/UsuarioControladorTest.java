@@ -39,6 +39,7 @@ class UsuarioControladorTest {
     @BeforeEach
     void setUp() {
         usuario = new Usuario();
+        
         usuario.setId(1L);
         usuario.setCorreo("test@mail.com");
         usuario.setNombre("Prueba");

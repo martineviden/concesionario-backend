@@ -46,12 +46,14 @@ class VehiculoControladorTest {
     @BeforeEach
     void setUp() {
         tipoVehiculo = new TipoVehiculo();
+
         tipoVehiculo.setMarca("Toyota");
         tipoVehiculo.setModelo("Corolla");
         tipoVehiculo.setPrecio(20000);
         tipoVehiculo.setTipo(Tipo.COCHE);
 
         vehiculo = new Vehiculo();
+        
         vehiculo.setMatricula("123ABC");
         vehiculo.setTipoVehiculo(tipoVehiculo);
         vehiculo.setColor("Blanco");
