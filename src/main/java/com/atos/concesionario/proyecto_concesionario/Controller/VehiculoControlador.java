@@ -33,7 +33,7 @@ public class VehiculoControlador {
 	}
 
 	@GetMapping("/ubicacion/{ubicacion}")
-	public List<Vehiculo> obtenerVehiculosPorUbicacion(@PathVariable String ubicacion) throws ResourceNotFoundException {
+	public List<Vehiculo> obtenerVehiculosPorUbicacion(@PathVariable Vehiculo.Provincia ubicacion) throws ResourceNotFoundException {
 		return vehiculoServicio.obtenerVehiculosPorUbicacion(ubicacion);
 	}
 
@@ -56,7 +56,7 @@ public class VehiculoControlador {
 	@GetMapping("/buscar")
 	public List<Vehiculo> buscarPorTipoYUbicacion(
 	        @RequestParam TipoVehiculo.Tipo tipo,
-	        @RequestParam String ubicacion) {
-	    return vehiculoServicio.buscarPorTipoYUbicacion(tipo, ubicacion);
+	        @RequestParam Vehiculo.Provincia ubicacion) {
+	    return vehiculoServicio.buscarPorTipoYUbicacion(tipo,  ubicacion);
 	}
 }
