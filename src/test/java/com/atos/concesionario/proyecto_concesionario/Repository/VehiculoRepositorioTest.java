@@ -79,7 +79,7 @@ public class VehiculoRepositorioTest {
 
     @Test
     void testFindByTipoVehiculo_TipoAndUbicacion() {
-        List<Vehiculo> resultados = vehiculoRepositorio.findByTipoVehiculo_TipoAndUbicacion(TipoVehiculo.Tipo.COCHE, "MADRID");
+        List<Vehiculo> resultados = vehiculoRepositorio.findByTipoVehiculo_TipoAndUbicacion(TipoVehiculo.Tipo.COCHE, Provincia.MADRID);
         assertThat(resultados).isNotEmpty();
     }
 }
