@@ -39,7 +39,7 @@ public class SeguridadConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .cors(Customizer.withDefaults()) // Habilita CORS en la configuración de seguridad
-            .csrf().disable() // Desactiva CSRF
+            .csrf(AbstractHttpConfigurer::disable) // Desactiva CSRF
             .authorizeHttpRequests(auth -> auth
                 .anyRequest().permitAll() // Permite todas las rutas
             );
