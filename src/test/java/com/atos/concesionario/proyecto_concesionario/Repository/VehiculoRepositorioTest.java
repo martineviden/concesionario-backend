@@ -1,7 +1,6 @@
 package com.atos.concesionario.proyecto_concesionario.Repository;
 
 import com.atos.concesionario.proyecto_concesionario.Model.TipoVehiculo;
-import com.atos.concesionario.proyecto_concesionario.Model.Usuario;
 import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo;
 import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo.Combustible;
 import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo.EtiquetaAmbiental;
