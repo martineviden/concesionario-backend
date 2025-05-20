@@ -13,10 +13,10 @@ public interface VehiculoRepositorio extends JpaRepository<Vehiculo, String> {
 
     List<Vehiculo> findByDisponibilidad(Boolean disponibilidad);
 
-    List<Vehiculo> findByUbicacion(String ubicacion);
+    List<Vehiculo> findByUbicacion(Vehiculo.Provincia ubicacion);
 
     List<Vehiculo> findByTipoVehiculo(TipoVehiculo.Tipo tipo);
 
 
-    List<Vehiculo> findByTipoVehiculo_TipoAndUbicacion(TipoVehiculo.Tipo tipo, String ubicacion);
+    List<Vehiculo> findByTipoVehiculo_TipoAndUbicacion(TipoVehiculo.Tipo tipo, Vehiculo.Provincia ubicacion);
 }

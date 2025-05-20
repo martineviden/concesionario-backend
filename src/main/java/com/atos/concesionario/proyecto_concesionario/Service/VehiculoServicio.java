@@ -33,7 +33,7 @@ public class VehiculoServicio {
         return ResponseEntity.ok().body(vehiculo);
     }
 
-    public List<Vehiculo> obtenerVehiculosPorUbicacion(String ubicacion) throws ResourceNotFoundException {
+    public List<Vehiculo> obtenerVehiculosPorUbicacion(Vehiculo.Provincia ubicacion) throws ResourceNotFoundException {
 		return vehiculoRepositorio.findByUbicacion(ubicacion);
 	}
 
@@ -84,11 +84,11 @@ public class VehiculoServicio {
     }
 
 
-    
-    public List<Vehiculo> buscarPorTipoYUbicacion(TipoVehiculo.Tipo tipo, String ubicacion) {
+    public List<Vehiculo> buscarPorTipoYUbicacion(TipoVehiculo.Tipo tipo, Vehiculo.Provincia ubicacion) {
         return vehiculoRepositorio.findByTipoVehiculo_TipoAndUbicacion(tipo, ubicacion);
     }
-    
+
+
     // Métodos adicionales podrían incluir:
     // - Buscar vehículos por rango de precio
     // - Actualizar disponibilidad
