@@ -17,7 +17,7 @@ public class Resena {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "Comentario")
+    @Column(nullable = false)
     private String comentario;
 
     @Column(columnDefinition = "INT CHECK (puntuacion >= 1 AND puntuacion <= 5)")
