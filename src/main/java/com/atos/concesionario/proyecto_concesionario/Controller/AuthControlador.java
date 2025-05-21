@@ -14,36 +14,35 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthControlador {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
+	@Autowired
+	private CustomUserDetailsService userDetailsService;
 
-    @Autowired
-    private JwtUtils jwtUtils;
+	@Autowired
+	private JwtUtils jwtUtils;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> autenticarUsuario(@RequestBody LoginRequest loginRequest) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getCorreo(), loginRequest.getContrasena())
-        );
+	@PostMapping("/login")
+	public ResponseEntity<?> autenticarUsuario(@RequestBody LoginRequest loginRequest) {
+		authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginRequest.getCorreo(), loginRequest.getContrasena()));
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getCorreo());
-        String jwt = jwtUtils.generarToken(userDetails.getUsername());
+		UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getCorreo());
+		String jwt = jwtUtils.generarToken(userDetails.getUsername());
 
-        return ResponseEntity.ok(new JwtResponse(jwt));
-    }
+		return ResponseEntity.ok(new JwtResponse(jwt));
+	}
 
-    @Data
-    public static class LoginRequest {
-        private String correo;
-        private String contrasena;
-    }
+	@Data
+	public static class LoginRequest {
+		private String correo;
+		private String contrasena;
+	}
 
-    @Data
-    @AllArgsConstructor
-    public static class JwtResponse {
-        private String token;
-    }
+	@Data
+	@AllArgsConstructor
+	public static class JwtResponse {
+		private String token;
+	}
 }
