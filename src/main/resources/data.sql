@@ -15,3 +15,13 @@ INSERT INTO vehiculo (matricula, id_tipo_vehiculo, color, kilometraje, disponibi
 ('3456JKL', 4, 'Azul', 22000, FALSE, 'SEVILLA', 'DIESEL', 'C', NULL, 5, TRUE, 5, 'AUTOMATICO'),
 ('7890MNO', 5, 'Amarillo', 3000, TRUE, 'BALEARES', 'GASOLINA', 'B', NULL, NULL, NULL, 2, 'MANUAL'),
 ('2345PQR', 6, 'Gris', 18000, TRUE, 'ALICANTE', 'GASOLINA', 'ECO', NULL, 5, TRUE, 5, 'AUTOMATICO');
+
+
+-- Insertar usuarios
+INSERT INTO usuario (dni, nombre, apellidos, correo, contrasena, telefono, rol) VALUES
+('87654321B', 'Carlos', 'Pérez', 'carlos@example.com', '123456', '123456789', 'CLIENTE');
+
+-- Insertar una reseña
+INSERT INTO resena (comentario, fecha, puntuacion, id_usuario, matricula) 
+VALUES 
+('Excelente vehículo', '2025-05-21', 5, 1, '1234ABC');

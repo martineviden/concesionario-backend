@@ -1,8 +1,13 @@
 package com.atos.concesionario.proyecto_concesionario.Repository;
 
-import com.atos.concesionario.proyecto_concesionario.Model.Resena;
-import com.atos.concesionario.proyecto_concesionario.Model.Usuario;
-import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo;
+import com.atos.concesionario.proyecto_concesionario.Model.*;
+import com.atos.concesionario.proyecto_concesionario.Model.TipoVehiculo.Tipo;
+import com.atos.concesionario.proyecto_concesionario.Model.Usuario.Rol;
+import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo.Provincia;
+import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo.Combustible;
+import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo.Transmision;
+import com.atos.concesionario.proyecto_concesionario.Model.Vehiculo.EtiquetaAmbiental;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,51 +15,80 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = Replace.NONE) // Usa H2 si no tienes otra configurada
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class ResenaRepositorioTest {
-	@Autowired
+
+    @Autowired
     private ResenaRepositorio resenaRepositorio;
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 
     @Autowired
+    private TipoVehiculoRepositorio tipoVehiculoRepositorio;
+
+    @Autowired
     private VehiculoRepositorio vehiculoRepositorio;
 
     private Usuario usuario;
+    private TipoVehiculo tipo;
     private Vehiculo vehiculo;
     private Resena resena;
 
     @BeforeEach
     void setUp() {
         // Crear y guardar usuario
-        usuario = new Usuario();
-        usuario.setDni("87654321B");
-        usuario.setNombre("Carlos");
-        usuario.setApellidos("Pérez");
-        usuario.setCorreo("carlos@example.com");
-        usuario.setContrasena("123456");
-        usuario.setTelefono("123456789");
+        usuario = Usuario.builder()
+                .dni("87654321B")
+                .nombre("Carlos")
+                .apellidos("Pérez")
+                .correo("carlos@example.com")
+                .contrasena("123456")
+                .telefono("123456789")
+                .rol(Rol.CLIENTE)
+                .build();
         usuarioRepositorio.save(usuario);
+
+        // Crear y guardar tipo de vehículo
+        tipo = new TipoVehiculo();
+        tipo.setTipo(Tipo.COCHE);
+        tipo.setMarca("Ford");
+        tipo.setModelo("Focus");
+        tipo.setPrecio(22000);
+        tipoVehiculoRepositorio.save(tipo);
 
         // Crear y guardar vehículo
         vehiculo = new Vehiculo();
         vehiculo.setMatricula("456DEF");
+        vehiculo.setTipoVehiculo(tipo);
         vehiculo.setColor("Negro");
         vehiculo.setDisponibilidad(true);
+        vehiculo.setUbicacion(Provincia.MADRID);
+        vehiculo.setPuertas(4);
+        vehiculo.setPlazas(5);
+        vehiculo.setAireAcondicionado(true);
+        vehiculo.setKilometraje(15000);
+        vehiculo.setAutonomia(600);
+        vehiculo.setCombustible(Combustible.GASOLINA);
+        vehiculo.setEtiqueta(EtiquetaAmbiental.C);
+        vehiculo.setTransmision(Transmision.MANUAL);
+        vehiculo.setMarca("Ford"); // importante: campo duplicado respecto a tipo
         vehiculoRepositorio.save(vehiculo);
 
         // Crear y guardar reseña
-        resena = new Resena();
-        resena.setUsuario(usuario);
-        resena.setVehiculo(vehiculo);
-        resena.setPuntuacion(5);
-        resena.setComentario("Excelente vehículo");
+        resena = Resena.builder()
+                .comentario("Excelente vehículo")
+                .puntuacion(5)
+                .fecha(LocalDate.now())
+                .usuario(usuario)
+                .vehiculo(vehiculo)
+                .build();
         resenaRepositorio.save(resena);
     }
 
@@ -78,4 +112,19 @@ public class ResenaRepositorioTest {
         assertEquals(1, resenas.size());
         assertEquals(5, resenas.get(0).getPuntuacion());
     }
+
+    @Test
+    void guardarResena_conDatosCompletos_deberiaPersistir() {
+        Resena nuevaResena = Resena.builder()
+                .comentario("Buen coche")
+                .puntuacion(4)
+                .fecha(LocalDate.now())
+                .usuario(usuario)
+                .vehiculo(vehiculo)
+                .build();
+        Resena guardada = resenaRepositorio.save(nuevaResena);
+        assertNotNull(guardada.getId());
+        assertEquals("Buen coche", guardada.getComentario());
+    }
 }
+
