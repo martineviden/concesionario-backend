@@ -3,6 +3,7 @@ package com.atos.concesionario.proyecto_concesionario.Config;
 import com.atos.concesionario.proyecto_concesionario.Jwt.JwtUtils;
 import com.atos.concesionario.proyecto_concesionario.Security.CustomUserDetailsService;
 import com.atos.concesionario.proyecto_concesionario.Security.JwtAuthenticationFilter;
+import com.atos.concesionario.proyecto_concesionario.Security.JwtAuthorizationFilter;
 import com.atos.concesionario.proyecto_concesionario.Security.JwtTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
