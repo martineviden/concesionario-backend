@@ -29,8 +29,8 @@ public class JwtTokenFilter extends GenericFilter {
         HttpServletRequest request = (HttpServletRequest) req;
         String token = parseJwt(request);
 
-        if (token != null && jwtUtils.isTokenValid(token)) {
-            String username = jwtUtils.getEmailFromToken(token);
+        if (token != null && jwtUtils.validarToken(token)) {
+            String username = jwtUtils.getUsernameFromToken(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities());
