@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class JwtTokenFilter extends GenericFilter {
 
-    private final JwtUtils jwtUtils;
+	private final JwtUtils jwtUtils;
     private final CustomUserDetailsService userDetailsService;
 
     public JwtTokenFilter(JwtUtils jwtUtils, CustomUserDetailsService userDetailsService) {
