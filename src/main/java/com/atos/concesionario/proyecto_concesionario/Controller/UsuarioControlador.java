@@ -43,8 +43,9 @@ public class UsuarioControlador {
         return usuarioServicio.obtenerUsuarioPorId(usuarioId);
     }
 
-    @PostMapping("/correo/")
-    public ResponseEntity<Usuario> obtenerUsuarioPorCorreo(@RequestBody String correo) throws ResourceNotFoundException {
+    @PostMapping("/correo")
+    public ResponseEntity<Usuario> obtenerUsuarioPorCorreo(@RequestBody Map<String, String> body) throws ResourceNotFoundException {
+        String correo = body.get("correo");
         return usuarioServicio.obtenerUsuarioPorCorreo(correo);
     }
     
