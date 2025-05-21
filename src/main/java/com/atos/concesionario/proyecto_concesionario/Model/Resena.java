@@ -18,8 +18,8 @@ public class Resena {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "TEXT")
-    private String texto;
+    @Column(columnDefinition = "Comentario")
+    private String comentario;
 
     @Column(columnDefinition = "INT CHECK (puntuacion >= 1 AND puntuacion <= 5)")
     private Integer puntuacion;
