@@ -35,61 +35,73 @@ public class ResenaRepositorioTest {
 
     @Autowired
     private VehiculoRepositorio vehiculoRepositorio;
+    
+    @Autowired
+    private ReservaRepositorio reservaRepositorio;
 
     private Usuario usuario;
     private TipoVehiculo tipo;
     private Vehiculo vehiculo;
     private Resena resena;
+    private Reserva reserva;
 
     @BeforeEach
     void setUp() {
-        // Crear y guardar usuario
-        usuario = Usuario.builder()
-                .dni("87654321B")
-                .nombre("Carlos")
-                .apellidos("Pérez")
-                .correo("carlos@example.com")
-                .contrasena("123456")
-                .telefono("123456789")
-                .rol(Rol.CLIENTE)
-                .build();
-        usuarioRepositorio.save(usuario);
+    	// Crear y guardar usuario
+    	usuario = new Usuario();
+    	usuario.setDni("87654321B");
+    	usuario.setNombre("Carlos");
+    	usuario.setApellidos("Pérez");
+    	usuario.setCorreo("carlos@example.com");
+    	usuario.setContrasena("123456");
+    	usuario.setTelefono("123456789");
+    	usuario.setRol(Rol.CLIENTE);
+    	usuarioRepositorio.save(usuario);
 
-        // Crear y guardar tipo de vehículo
-        tipo = new TipoVehiculo();
-        tipo.setTipo(Tipo.COCHE);
-        tipo.setMarca("Ford");
-        tipo.setModelo("Focus");
-        tipo.setPrecio(22000);
-        tipoVehiculoRepositorio.save(tipo);
+    	// Crear y guardar tipo de vehículo
+    	tipo = new TipoVehiculo();
+    	tipo.setTipo(Tipo.COCHE);
+    	tipo.setMarca("Ford");
+    	tipo.setModelo("Focus");
+    	tipo.setPrecio(22000);
+    	tipoVehiculoRepositorio.save(tipo);
 
-        // Crear y guardar vehículo
-        vehiculo = new Vehiculo();
-        vehiculo.setMatricula("456DEF");
-        vehiculo.setTipoVehiculo(tipo);
-        vehiculo.setColor("Negro");
-        vehiculo.setDisponibilidad(true);
-        vehiculo.setUbicacion(Provincia.MADRID);
-        vehiculo.setPuertas(4);
-        vehiculo.setPlazas(5);
-        vehiculo.setAireAcondicionado(true);
-        vehiculo.setKilometraje(15000);
-        vehiculo.setAutonomia(600);
-        vehiculo.setCombustible(Combustible.GASOLINA);
-        vehiculo.setEtiqueta(EtiquetaAmbiental.C);
-        vehiculo.setTransmision(Transmision.MANUAL);
-        vehiculo.setMarca("Ford"); // importante: campo duplicado respecto a tipo
-        vehiculoRepositorio.save(vehiculo);
+    	// Crear y guardar vehículo
+    	vehiculo = new Vehiculo();
+    	vehiculo.setMatricula("456DEF");
+    	vehiculo.setTipoVehiculo(tipo);
+    	vehiculo.setColor("Negro");
+    	vehiculo.setDisponibilidad(true);
+    	vehiculo.setUbicacion(Provincia.MADRID);
+    	vehiculo.setPuertas(4);
+    	vehiculo.setPlazas(5);
+    	vehiculo.setAireAcondicionado(true);
+    	vehiculo.setKilometraje(15000);
+    	vehiculo.setAutonomia(600);
+    	vehiculo.setCombustible(Combustible.GASOLINA);
+    	vehiculo.setEtiqueta(EtiquetaAmbiental.C);
+    	vehiculo.setTransmision(Transmision.MANUAL);
+    	vehiculoRepositorio.save(vehiculo);
 
-        // Crear y guardar reseña
-        resena = Resena.builder()
-                .comentario("Excelente vehículo")
-                .puntuacion(5)
-                .fecha(LocalDate.now())
-                .usuario(usuario)
-                .vehiculo(vehiculo)
-                .build();
-        resenaRepositorio.save(resena);
+    	// Crear y guardar una reserva
+    	reserva = new Reserva();
+    	reserva.setFechaReserva(LocalDate.now());
+    	reserva.setDiasReserva(5);
+    	reserva.setPrecio(5000.2);
+    	reserva.setUsuario(usuario);
+    	reserva.setVehiculo(vehiculo);
+    	reservaRepositorio.save(reserva);
+
+    	// Crear y guardar reseña
+    	resena = new Resena();
+    	resena.setComentario("Excelente vehículo");
+    	resena.setPuntuacion(5);
+    	resena.setFecha(LocalDate.now());
+    	resena.setUsuario(usuario);
+    	resena.setVehiculo(vehiculo);
+    	resena.setReserva(reserva);
+    	resenaRepositorio.save(resena);
+
     }
 
     @Test
@@ -115,13 +127,13 @@ public class ResenaRepositorioTest {
 
     @Test
     void guardarResena_conDatosCompletos_deberiaPersistir() {
-        Resena nuevaResena = Resena.builder()
-                .comentario("Buen coche")
-                .puntuacion(4)
-                .fecha(LocalDate.now())
-                .usuario(usuario)
-                .vehiculo(vehiculo)
-                .build();
+        Resena nuevaResena = new Resena();
+        nuevaResena.setComentario("Buen coche");
+        nuevaResena.setPuntuacion(4);
+        nuevaResena.setFecha(LocalDate.now());
+        nuevaResena.setUsuario(usuario);
+        nuevaResena.setVehiculo(vehiculo);
+       
         Resena guardada = resenaRepositorio.save(nuevaResena);
         assertNotNull(guardada.getId());
         assertEquals("Buen coche", guardada.getComentario());

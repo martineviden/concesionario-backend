@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Resena {
 
 	@Id
