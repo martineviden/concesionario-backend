@@ -9,6 +9,8 @@ import java.util.List;
 @Entity
 @Table(name = "tipo_vehiculo")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TipoVehiculo {
 	public enum Tipo {
 		MOTO, COCHE, FURGONETA

@@ -9,6 +9,8 @@ import lombok.*;
 @Entity
 @Table(name = "vehiculo")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Vehiculo {
 
 	public enum Combustible {
