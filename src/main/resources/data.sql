@@ -15,5 +15,10 @@ INSERT INTO vehiculo (matricula, id_tipo_vehiculo, color, kilometraje, disponibi
 ('7890MNO', 5, 'Amarillo', 3000, TRUE, 'BALEARES', 'GASOLINA', 'B', NULL, NULL, NULL, 2, 'MANUAL'),
 ('2345PQR', 6, 'Gris', 18000, TRUE, 'ALICANTE', 'GASOLINA', 'ECO', NULL, 5, TRUE, 5, 'AUTOMATICO');
 
+-- Insertar usuarios
+INSERT INTO usuario (dni, nombre, apellidos, correo, contrasena, telefono, rol) VALUES
+('12345678A', 'Juan', 'Perez', 'juan@example.com', '1234', '620212324', 'CLIENTE'),
+('87654321Z', 'Alicia', 'Gomez', 'alicia@example.com', '1234', '629282726', 'CLIENTE')
+
 
 
