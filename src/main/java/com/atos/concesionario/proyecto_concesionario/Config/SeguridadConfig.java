@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -22,13 +24,27 @@ public class SeguridadConfig {
     }
 
     @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**") // Permite CORS en todas las rutas
+                    .allowedOrigins("http://localhost:4200")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE")
+                    .allowedHeaders("*")
+                    .allowCredentials(true);
+            }
+        };
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults()) // activa soporte CORS si usas configuración global
-                .csrf(AbstractHttpConfigurer::disable) // desactiva CSRF
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // permite todas las rutas
-                );
+            .cors(Customizer.withDefaults()) // Habilita CORS en la configuración de seguridad
+            .csrf(AbstractHttpConfigurer::disable) // Desactiva CSRF
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll() // Permite todas las rutas
+            );
 
         return http.build();
     }

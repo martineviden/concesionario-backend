@@ -11,14 +11,13 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Resena {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "Comentario")
+    @Column(columnDefinition = "Comentario", nullable = false)
     private String comentario;
 
     @Column(columnDefinition = "INT CHECK (puntuacion >= 1 AND puntuacion <= 5)")

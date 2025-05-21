@@ -34,61 +34,70 @@ class ResenaServicioTest {
 
     @Test
     void obtenerResenasPaginadas_debeRetornarPagina() {
-        // Arrange
         int pagina = 0;
         int tamaño = 10;
         Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("fecha").descending());
-        List<Resena> resenas = Arrays.asList(
-            Resena.builder().id(1L).comentario("Excelente").puntuacion(5).fecha(LocalDate.now()).build(),
-            Resena.builder().id(2L).comentario("Buena").puntuacion(4).fecha(LocalDate.now()).build()
-        );
+
+        Resena resena1 = new Resena();
+        resena1.setId(1L);
+        resena1.setComentario("Excelente");
+        resena1.setPuntuacion(5);
+        resena1.setFecha(LocalDate.now());
+
+        Resena resena2 = new Resena();
+        resena2.setId(2L);
+        resena2.setComentario("Buena");
+        resena2.setPuntuacion(4);
+        resena2.setFecha(LocalDate.now());
+
+        List<Resena> resenas = Arrays.asList(resena1, resena2);
         Page<Resena> paginaEsperada = new PageImpl<>(resenas, pageable, resenas.size());
-        
+
         when(resenaRepositorio.findAll(pageable)).thenReturn(paginaEsperada);
 
-        // Act
         Page<Resena> resultado = resenaServicio.obtenerResenasPaginadas(pagina, tamaño);
 
-        // Assert
         assertEquals(2, resultado.getContent().size());
         verify(resenaRepositorio, times(1)).findAll(pageable);
     }
 
     @Test
     void obtenerTodasResenas_debeRetornarLista() {
-        // Arrange
-        List<Resena> resenas = Arrays.asList(
-            Resena.builder().id(1L).comentario("Excelente").puntuacion(5).fecha(LocalDate.now()).build(),
-            Resena.builder().id(2L).comentario("Regular").puntuacion(3).fecha(LocalDate.now()).build()
-        );
-        
+        Resena resena1 = new Resena();
+        resena1.setId(1L);
+        resena1.setComentario("Excelente");
+        resena1.setPuntuacion(5);
+        resena1.setFecha(LocalDate.now());
+
+        Resena resena2 = new Resena();
+        resena2.setId(2L);
+        resena2.setComentario("Regular");
+        resena2.setPuntuacion(3);
+        resena2.setFecha(LocalDate.now());
+
+        List<Resena> resenas = Arrays.asList(resena1, resena2);
+
         when(resenaRepositorio.findAll()).thenReturn(resenas);
 
-        // Act
         List<Resena> resultado = resenaServicio.obtenerTodasResenas();
 
-        // Assert
         assertEquals(2, resultado.size());
         verify(resenaRepositorio, times(1)).findAll();
     }
 
     @Test
     void obtenerResenaPorId_CuandoExiste_debeRetornarResena() throws ResourceNotFoundException {
-        // Arrange
         Long id = 1L;
-        Resena resena = Resena.builder()
-            .id(id)
-            .comentario("Buena")
-            .puntuacion(4)
-            .fecha(LocalDate.now())
-            .build();
-        
+        Resena resena = new Resena();
+        resena.setId(id);
+        resena.setComentario("Buena");
+        resena.setPuntuacion(4);
+        resena.setFecha(LocalDate.now());
+
         when(resenaRepositorio.findById(id)).thenReturn(Optional.of(resena));
 
-        // Act
         Resena resultado = resenaServicio.obtenerResenaPorId(id).getBody();
 
-        // Assert
         assertNotNull(resultado);
         assertEquals(id, resultado.getId());
         verify(resenaRepositorio, times(1)).findById(id);
@@ -96,37 +105,30 @@ class ResenaServicioTest {
 
     @Test
     void obtenerResenaPorId_CuandoNoExiste_debeLanzarExcepcion() {
-        // Arrange
         Long id = 99L;
-        
+
         when(resenaRepositorio.findById(id)).thenReturn(Optional.empty());
 
-        // Act & Assert
         assertThrows(ResourceNotFoundException.class, () -> resenaServicio.obtenerResenaPorId(id));
     }
 
     @Test
     void crearResena_debeRetornarResenaGuardada() {
-        // Arrange
-        Resena resena = Resena.builder()
-            .comentario("Mala")
-            .puntuacion(2)
-            .fecha(LocalDate.now())
-            .build();
-            
-        Resena resenaGuardada = Resena.builder()
-            .id(1L)
-            .comentario("Mala")
-            .puntuacion(2)
-            .fecha(LocalDate.now())
-            .build();
-        
+        Resena resena = new Resena();
+        resena.setComentario("Mala");
+        resena.setPuntuacion(2);
+        resena.setFecha(LocalDate.now());
+
+        Resena resenaGuardada = new Resena();
+        resenaGuardada.setId(1L);
+        resenaGuardada.setComentario("Mala");
+        resenaGuardada.setPuntuacion(2);
+        resenaGuardada.setFecha(LocalDate.now());
+
         when(resenaRepositorio.save(resena)).thenReturn(resenaGuardada);
 
-        // Act
         Resena resultado = resenaServicio.crearResena(resena);
 
-        // Assert
         assertNotNull(resultado.getId());
         assertEquals(1L, resultado.getId());
         verify(resenaRepositorio, times(1)).save(resena);
@@ -134,28 +136,24 @@ class ResenaServicioTest {
 
     @Test
     void actualizarResena_debeRetornarResenaActualizada() throws ResourceNotFoundException {
-        // Arrange
         Long id = 1L;
-        Resena resenaExistente = Resena.builder()
-            .id(id)
-            .comentario("Original")
-            .puntuacion(3)
-            .fecha(LocalDate.now())
-            .build();
-            
-        Resena nuevosDatos = Resena.builder()
-            .comentario("Actualizada")
-            .puntuacion(5)
-            .fecha(LocalDate.now())
-            .build();
-        
+
+        Resena resenaExistente = new Resena();
+        resenaExistente.setId(id);
+        resenaExistente.setComentario("Original");
+        resenaExistente.setPuntuacion(3);
+        resenaExistente.setFecha(LocalDate.now());
+
+        Resena nuevosDatos = new Resena();
+        nuevosDatos.setComentario("Actualizada");
+        nuevosDatos.setPuntuacion(5);
+        nuevosDatos.setFecha(LocalDate.now());
+
         when(resenaRepositorio.findById(id)).thenReturn(Optional.of(resenaExistente));
         when(resenaRepositorio.save(resenaExistente)).thenReturn(resenaExistente);
 
-        // Act
         Resena resultado = resenaServicio.actualizarResena(id, nuevosDatos).getBody();
 
-        // Assert
         assertNotNull(resultado);
         assertEquals("Actualizada", resultado.getComentario());
         assertEquals(5, resultado.getPuntuacion());
@@ -165,23 +163,19 @@ class ResenaServicioTest {
 
     @Test
     void eliminarResena_debeEliminarCorrectamente() {
-        // Arrange
         Long id = 1L;
-        Resena resena = Resena.builder()
-            .id(id)
-            .comentario("A eliminar")
-            .puntuacion(1)
-            .fecha(LocalDate.now())
-            .build();
-        
+
+        Resena resena = new Resena();
+        resena.setId(id);
+        resena.setComentario("A eliminar");
+        resena.setPuntuacion(1);
+        resena.setFecha(LocalDate.now());
+
         when(resenaRepositorio.findById(id)).thenReturn(Optional.of(resena));
         doNothing().when(resenaRepositorio).delete(resena);
 
-        // Act & Assert
-        assertDoesNotThrow(() -> {
-            resenaServicio.eliminarResena(id);
-        });
-        
+        assertDoesNotThrow(() -> resenaServicio.eliminarResena(id));
+
         verify(resenaRepositorio, times(1)).findById(id);
         verify(resenaRepositorio, times(1)).delete(resena);
     }
