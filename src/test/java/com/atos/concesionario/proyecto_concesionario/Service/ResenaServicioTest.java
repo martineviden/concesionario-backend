@@ -39,8 +39,8 @@ class ResenaServicioTest {
         int tamaño = 10;
         Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("fecha").descending());
         List<Resena> resenas = Arrays.asList(
-            Resena.builder().id(1L).texto("Excelente").puntuacion(5).fecha(LocalDate.now()).build(),
-            Resena.builder().id(2L).texto("Buena").puntuacion(4).fecha(LocalDate.now()).build()
+            Resena.builder().id(1L).comentario("Excelente").puntuacion(5).fecha(LocalDate.now()).build(),
+            Resena.builder().id(2L).comentario("Buena").puntuacion(4).fecha(LocalDate.now()).build()
         );
         Page<Resena> paginaEsperada = new PageImpl<>(resenas, pageable, resenas.size());
         
@@ -58,8 +58,8 @@ class ResenaServicioTest {
     void obtenerTodasResenas_debeRetornarLista() {
         // Arrange
         List<Resena> resenas = Arrays.asList(
-            Resena.builder().id(1L).texto("Excelente").puntuacion(5).fecha(LocalDate.now()).build(),
-            Resena.builder().id(2L).texto("Regular").puntuacion(3).fecha(LocalDate.now()).build()
+            Resena.builder().id(1L).comentario("Excelente").puntuacion(5).fecha(LocalDate.now()).build(),
+            Resena.builder().id(2L).comentario("Regular").puntuacion(3).fecha(LocalDate.now()).build()
         );
         
         when(resenaRepositorio.findAll()).thenReturn(resenas);
@@ -78,7 +78,7 @@ class ResenaServicioTest {
         Long id = 1L;
         Resena resena = Resena.builder()
             .id(id)
-            .texto("Buena")
+            .comentario("Buena")
             .puntuacion(4)
             .fecha(LocalDate.now())
             .build();
@@ -109,14 +109,14 @@ class ResenaServicioTest {
     void crearResena_debeRetornarResenaGuardada() {
         // Arrange
         Resena resena = Resena.builder()
-            .texto("Mala")
+            .comentario("Mala")
             .puntuacion(2)
             .fecha(LocalDate.now())
             .build();
             
         Resena resenaGuardada = Resena.builder()
             .id(1L)
-            .texto("Mala")
+            .comentario("Mala")
             .puntuacion(2)
             .fecha(LocalDate.now())
             .build();
@@ -138,13 +138,13 @@ class ResenaServicioTest {
         Long id = 1L;
         Resena resenaExistente = Resena.builder()
             .id(id)
-            .texto("Original")
+            .comentario("Original")
             .puntuacion(3)
             .fecha(LocalDate.now())
             .build();
             
         Resena nuevosDatos = Resena.builder()
-            .texto("Actualizada")
+            .comentario("Actualizada")
             .puntuacion(5)
             .fecha(LocalDate.now())
             .build();
@@ -157,7 +157,7 @@ class ResenaServicioTest {
 
         // Assert
         assertNotNull(resultado);
-        assertEquals("Actualizada", resultado.getTexto());
+        assertEquals("Actualizada", resultado.getComentario());
         assertEquals(5, resultado.getPuntuacion());
         verify(resenaRepositorio, times(1)).findById(id);
         verify(resenaRepositorio, times(1)).save(resenaExistente);
@@ -169,7 +169,7 @@ class ResenaServicioTest {
         Long id = 1L;
         Resena resena = Resena.builder()
             .id(id)
-            .texto("A eliminar")
+            .comentario("A eliminar")
             .puntuacion(1)
             .fecha(LocalDate.now())
             .build();

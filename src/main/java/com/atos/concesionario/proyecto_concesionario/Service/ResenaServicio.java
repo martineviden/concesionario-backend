@@ -49,7 +49,7 @@ public class ResenaServicio {
     	Resena resena = resenaRepositorio.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Reseña con id " + id + " no encontrada"));
 
-        resena.setTexto(resenaDetalles.getTexto());
+        resena.setComentario(resenaDetalles.getComentario());
         resena.setPuntuacion(resenaDetalles.getPuntuacion());
         resena.setFecha(resenaDetalles.getFecha());
         resena.setUsuario(resenaDetalles.getUsuario());

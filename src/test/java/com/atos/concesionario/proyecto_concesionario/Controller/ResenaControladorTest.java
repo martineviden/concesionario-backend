@@ -44,7 +44,7 @@ public class ResenaControladorTest {
 
         resena = new Resena();
         resena.setId(1L);
-        resena.setTexto("Excelente vehículo");
+        resena.setComentario("Excelente vehículo");
         resena.setPuntuacion(5);
         // Si tienes setUsuario o setVehiculo, también puedes configurarlos aquí si son necesarios para la lógica
     }
