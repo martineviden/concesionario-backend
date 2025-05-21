@@ -35,8 +35,14 @@ public class UsuarioServicio {
         return ResponseEntity.ok().body(usuario);
     }
 
+    public ResponseEntity<Usuario> obtenerUsuarioPorCorreo(String correo) throws ResourceNotFoundException {
+        Usuario usuario = usuarioRepositorio.findByCorreo(correo).orElseThrow(() -> new ResourceNotFoundException("Usuario con correo " + correo + " no encontrado"));
+
+        return ResponseEntity.ok().body(usuario);
+    }
+
     public Usuario crearUsuario(Usuario usuario) {
-    	 // Hashear dni y contraseña antes de guardar
+    	// Hashear dni y contraseña antes de guardar
         String dniHasheado = passwordEncoder.encode(usuario.getDni());
         String contrasenaHasheada = passwordEncoder.encode(usuario.getContrasena());
 

@@ -18,7 +18,6 @@ import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundE
 import com.atos.concesionario.proyecto_concesionario.Model.Usuario;
 import com.atos.concesionario.proyecto_concesionario.Service.UsuarioServicio;
 
-
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/usuarios")
@@ -44,8 +43,15 @@ public class UsuarioControlador {
         return usuarioServicio.obtenerUsuarioPorId(usuarioId);
     }
 
+    @PostMapping("/correo/")
+    public ResponseEntity<Usuario> obtenerUsuarioPorCorreo(@RequestBody String correo) throws ResourceNotFoundException {
+        return usuarioServicio.obtenerUsuarioPorCorreo(correo);
+    }
+    
+
     @PostMapping
     public Usuario crearUsuario(@RequestBody Usuario usuario) {
+        System.out.println("Contrseña recibida: " + usuario.getContrasena());
         return usuarioServicio.crearUsuario(usuario);
     }
 
