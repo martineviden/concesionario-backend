@@ -83,10 +83,7 @@ public class SeguridadConfig {
 				}).cors(cors -> cors.configurationSource(corsConfigurationSource())) // habilitar CORS con configuración
 																						// proporcionada
 				.addFilter(authFilter) // filtro de autenticación (login)
-				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class); // filtro JWT
-																										// antes del
-																										// filtro por
-																										// defecto
+				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class); // filtro JWT antes del filtro por defecto
 
 		return http.build();
 	}
