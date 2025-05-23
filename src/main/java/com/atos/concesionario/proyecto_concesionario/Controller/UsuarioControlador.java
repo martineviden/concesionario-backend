@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundException;
+import com.atos.concesionario.proyecto_concesionario.Model.LoginRequest;
+import com.atos.concesionario.proyecto_concesionario.Model.LoginResponse;
 import com.atos.concesionario.proyecto_concesionario.Model.Usuario;
 import com.atos.concesionario.proyecto_concesionario.Service.UsuarioServicio;
 
@@ -67,5 +69,11 @@ public class UsuarioControlador {
     }
 
     // Otros endpoints
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        LoginResponse response = usuarioServicio.autenticarUsuario(request.getCorreo(), request.getContrasena());
+        return ResponseEntity.ok(response);
+    }
 
 }

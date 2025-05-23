@@ -3,12 +3,14 @@ package com.atos.concesionario.proyecto_concesionario.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundException;
+import com.atos.concesionario.proyecto_concesionario.Model.LoginResponse;
 import com.atos.concesionario.proyecto_concesionario.Model.Usuario;
 import com.atos.concesionario.proyecto_concesionario.Repository.UsuarioRepositorio;
 
@@ -76,5 +78,28 @@ public class UsuarioServicio {
     }
 
     // Otros métodos
+
+    public LoginResponse autenticarUsuario(String correo, String contrasenaIngresada) {
+        Optional<Usuario> usuarioOpt = usuarioRepositorio.findByCorreo(correo);
+
+        if (usuarioOpt.isEmpty()) {
+            System.out.println("Usuario con correo " + correo + " no encontrado");
+            return new LoginResponse(false, null);
+        }
+
+        Usuario usuario = usuarioOpt.get();
+
+        boolean coincide = passwordEncoder.matches(contrasenaIngresada, usuario.getContrasena());
+
+        System.out.println("Contraseña 1: " + contrasenaIngresada + " | Contraseña 2: " + usuario.getContrasena());
+
+        if (coincide) {
+            usuario.setContrasena(null); // Limpia la contraseña antes de devolver el objeto
+            return new LoginResponse(true, usuario);
+        } else {
+            return new LoginResponse(false, null);
+        }
+
+    }
 
 }
