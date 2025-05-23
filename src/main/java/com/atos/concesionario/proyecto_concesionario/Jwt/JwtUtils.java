@@ -18,14 +18,16 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes());
     }
 
-    public String generarToken(String username) {
+    public String generarToken(String username, String rol) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("rol", rol)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
 
     public String getUsernameFromToken(String token) {
         return Jwts.parserBuilder()

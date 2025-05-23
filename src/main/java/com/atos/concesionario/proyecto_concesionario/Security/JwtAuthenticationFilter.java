@@ -13,6 +13,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
@@ -51,18 +53,36 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-			Authentication authResult) throws IOException, ServletException {
+											Authentication authResult) throws IOException, ServletException {
 
-		String correo = authResult.getName(); // getUsername()
-		String token = jwtUtils.generarToken(correo);
+		// Obtener datos del usuario autenticado
+		UserDetails userDetails = (UserDetails) authResult.getPrincipal();
+		String correo = userDetails.getUsername();
 
-		// Opcional: devolver el token en el body como JSON
+		// Suponiendo que solo tiene un rol (ADMIN o CLIENTE)
+		String rol = userDetails.getAuthorities()
+				.stream()
+				.findFirst()
+				.map(GrantedAuthority::getAuthority)
+				.orElse("CLIENTE"); // por defecto
+
+		// Elimina prefijo "ROLE_" si lo tienes en tu sistema
+		if (rol.startsWith("ROLE_")) {
+			rol = rol.substring(5);
+		}
+
+		// Generar el token con correo + rol
+		String token = jwtUtils.generarToken(correo, rol);
+
+		// Devolver el token y el rol en el cuerpo de la respuesta
 		Map<String, String> body = new HashMap<>();
 		body.put("token", token);
+		body.put("rol", rol);
 
 		response.setContentType("application/json");
 		new ObjectMapper().writeValue(response.getOutputStream(), body);
 	}
+
 
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,

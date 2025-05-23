@@ -3,7 +3,9 @@ package com.atos.concesionario.proyecto_concesionario.Controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +28,12 @@ public class UsuarioControlador {
     
 
     private final UsuarioServicio usuarioServicio;
+    private final PasswordEncoder passwordEncoder;
 
 
-    public UsuarioControlador(UsuarioServicio usuarioServicio) {
+    public UsuarioControlador(UsuarioServicio usuarioServicio, PasswordEncoder passwordEncoder) {
         this.usuarioServicio = usuarioServicio;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // Endpoints CRUD
@@ -46,8 +50,13 @@ public class UsuarioControlador {
 
     @PostMapping
     public Usuario crearUsuario(@RequestBody Usuario usuario) {
+        // Cifrar la contraseña antes de guardar
+        String contraseñaCifrada = passwordEncoder.encode(usuario.getContrasena());
+        usuario.setContrasena(contraseñaCifrada);
+
         return usuarioServicio.crearUsuario(usuario);
     }
+
 
     @PutMapping("/{usuarioId}")
     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long usuarioId, @RequestBody Usuario usuarioDetalles) throws ResourceNotFoundException {

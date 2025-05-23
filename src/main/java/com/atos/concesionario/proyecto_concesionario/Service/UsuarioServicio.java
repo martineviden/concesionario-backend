@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +68,11 @@ public class UsuarioServicio {
         Map<String, Boolean> respuesta = new HashMap<>();
         respuesta.put("Usuario eliminado", Boolean.TRUE);
         return respuesta;
+    }
+
+    public Usuario obtenerPorCorreo(String correo) {
+        return usuarioRepositorio.findByCorreo(correo)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
     }
 
     // Otros métodos

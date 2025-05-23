@@ -43,12 +43,12 @@ public class Usuario {
     @Column(nullable = false)
     private Rol rol;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     @JsonManagedReference("usuario-reserva")
-    private List<Reserva> reservas;
-
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Reserva> reservas = List.of();
+
     @JsonManagedReference("usuario-resena")
-    private List<Resena> resenas;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Resena> resenas = List.of();
 
 }
