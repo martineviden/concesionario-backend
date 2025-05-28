@@ -1,6 +1,6 @@
 package com.atos.concesionario.proyecto_concesionario.Model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,7 +37,7 @@ public class TipoVehiculo {
 	private String imagen;
 
 	@OneToMany(mappedBy = "tipoVehiculo", cascade = CascadeType.ALL)
-	@JsonManagedReference("tipoVehiculo-vehiculo")
+	@JsonIgnoreProperties("tipoVehiculo")
 	private List<Vehiculo> vehiculos;
 
 }

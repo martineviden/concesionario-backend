@@ -2,7 +2,8 @@ package com.atos.concesionario.proyecto_concesionario.Model;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -48,7 +49,7 @@ public class Vehiculo {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_tipo_vehiculo", nullable = false)
-	@JsonBackReference("tipoVehiculo-vehiculo")
+	@JsonIgnoreProperties("vehiculos")
 	private TipoVehiculo tipoVehiculo;
 
 	// Campos generales
