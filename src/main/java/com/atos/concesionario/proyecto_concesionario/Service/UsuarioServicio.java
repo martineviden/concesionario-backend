@@ -91,8 +91,6 @@ public class UsuarioServicio {
 
         boolean coincide = passwordEncoder.matches(contrasenaIngresada, usuario.getContrasena());
 
-        System.out.println("Contraseña 1: " + contrasenaIngresada + " | Contraseña 2: " + usuario.getContrasena());
-
         if (coincide) {
             usuario.setContrasena(null); // Limpia la contraseña antes de devolver el objeto
             return new LoginResponse(true, usuario);
