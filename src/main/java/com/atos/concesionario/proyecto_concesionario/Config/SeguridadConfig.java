@@ -27,18 +27,20 @@ import java.util.List;
 @Configuration
 public class SeguridadConfig {
 
-	@Autowired
-	private CustomUserDetailsService userDetailsService;
+	private final CustomUserDetailsService userDetailsService;
 
-	@Autowired
-	private JwtUtils jwtUtils;
+	private final JwtUtils jwtUtils;
+
+	public SeguridadConfig(CustomUserDetailsService userDetailsService, JwtUtils jwtUtils) {
+		this.userDetailsService = userDetailsService;
+		this.jwtUtils = jwtUtils;
+	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
-	// ✅ DaoAuthenticationProvider correctamente configurado
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();

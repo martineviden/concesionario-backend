@@ -50,9 +50,6 @@ public class UsuarioControlador {
 
     @PostMapping
     public Usuario crearUsuario(@RequestBody Usuario usuario) {
-        // Cifrar la contraseña antes de guardar
-        String contraseñaCifrada = passwordEncoder.encode(usuario.getContrasena());
-        usuario.setContrasena(contraseñaCifrada);
 
         return usuarioServicio.crearUsuario(usuario);
     }

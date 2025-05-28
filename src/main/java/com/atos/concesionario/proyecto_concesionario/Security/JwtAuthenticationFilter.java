@@ -66,10 +66,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 				.map(GrantedAuthority::getAuthority)
 				.orElse("CLIENTE"); // por defecto
 
-		// Elimina prefijo "ROLE_" si lo tienes en tu sistema
-		if (rol.startsWith("ROLE_")) {
-			rol = rol.substring(5);
-		}
 
 		// Generar el token con correo + rol
 		String token = jwtUtils.generarToken(correo, rol);
@@ -86,10 +82,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException failed) throws IOException {
+											  AuthenticationException failed) throws IOException {
+		System.out.println("❌ Login fallido: " + failed.getMessage()); // 💥 Aquí ves el motivo exacto
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.getWriter().write("Error: autenticación fallida");
 	}
+
 
 	@Data
 	@NoArgsConstructor
