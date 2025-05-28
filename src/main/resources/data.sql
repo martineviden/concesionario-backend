@@ -23,6 +23,3 @@ INSERT INTO usuario (dni, nombre, apellidos, correo, contrasena, telefono, rol) 
 ('$2a$10$gvxmcMy2LV5hyIVdXkODN.XYnkihxIgRR3ilc8yr0ccMqtOwSVmSe', 'Admin', 'Admin', 'admin@admin.com', '$2a$10$/G8wzOlaczFdFppYhi9WFOcQ71BEE/bD98RGRT4TWjCG8u/RwUj0i', '000000000', 'ADMIN'),
 ('$2a$10$Mrfc7RH/hO2DDlFbnnUTNehtOL2udC8JIk8BNhamX/wyhslE1ij9W', 'Juan', 'Perez', 'juan@example.com', '$2a$10$vWft.n4G.wS6zIJawIT4jeNSLO9uszF6O7LoGOhGLhRbeDXX0W6xO', '620212324', 'CLIENTE'),
 ('$2a$10$OSsA2ZGjJIac11pNmrws2.Vq02yLMGVEmgjnaj.zVVqr8jyvoiJ.i', 'Alicia', 'Gomez', 'alicia@example.com', '$2a$10$lagHtOUymSe/Qan0T.UWAuB5E.VOLHs8/Evyx41cxX6NYnJbIFvtG', '629282726', 'CLIENTE');
-
-
-
