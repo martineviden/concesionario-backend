@@ -1,12 +1,12 @@
 -- Insertar tipos de vehículos
 INSERT INTO tipo_vehiculo (marca, modelo, precio, tipo_vehiculo, imagen) VALUES 
-('Toyota', 'Corolla', 22000.00, 'COCHE', 'toyota_corolla.jpg'),
-('Honda', 'CBR600RR', 10500.00, 'MOTO', 'honda_cbr600rr.jpg'),
-('Volkswagen', 'Transporter', 32000.00, 'FURGONETA', 'vw_transporter.jpg'),
-('BMW', 'Serie 3', 38000.00, 'COCHE', 'bmw_serie3.jpg'),
-('Yamaha', 'MT-07', 7500.00, 'MOTO', 'yamaha_mt07.jpg'),
-('Ford', 'Focus', 19500.00, 'COCHE', 'ford_focus.jpg'),
-('Hyundai', 'i20N', 35000, 'COCHE', 'hyundai_i20n.jpg');
+('Toyota', 'Corolla', 30.00, 'COCHE', 'toyota_corolla.jpg'),
+('Honda', 'CBR600RR', 15.00, 'MOTO', 'honda_cbr600rr.jpg'),
+('Volkswagen', 'Transporter', 50.00, 'FURGONETA', 'vw_transporter.jpg'),
+('BMW', 'Serie 3', 60.00, 'COCHE', 'bmw_serie3.jpg'),
+('Yamaha', 'MT-07', 12.00, 'MOTO', 'yamaha_mt07.jpg'),
+('Ford', 'Focus', 30.00, 'COCHE', 'ford_focus.jpg'),
+('Hyundai', 'i20N', 35.00, 'COCHE', 'hyundai_i20n.jpg');
 
 -- Insertar vehículos
 INSERT INTO vehiculo (matricula, id_tipo_vehiculo, color, kilometraje, disponibilidad, ubicacion, combustible, etiqueta, autonomia, puertas, aire_acondicionado, plazas, transmision) VALUES
