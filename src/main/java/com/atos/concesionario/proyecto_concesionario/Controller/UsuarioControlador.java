@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,11 +50,19 @@ public class UsuarioControlador {
     }
 
     @PostMapping
-    public Usuario crearUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario, Authentication auth) {
+        // Si alguien intenta crear un ADMIN...
+        if (usuario.getRol() == Usuario.Rol.ADMIN) {
+            // Solo permitirlo si está autenticado y es ADMIN
+            if (auth == null || auth.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ADMIN"))) {
+                return ResponseEntity.status(403).build();
+            }
+        }
 
-        return usuarioServicio.crearUsuario(usuario);
+        Usuario creado = usuarioServicio.crearUsuario(usuario);
+        creado.setContrasena(null); // seguridad extra
+        return ResponseEntity.ok(creado);
     }
-
 
     @PutMapping("/{usuarioId}")
     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long usuarioId, @RequestBody Usuario usuarioDetalles) throws ResourceNotFoundException {

@@ -1,5 +1,6 @@
 package com.atos.concesionario.proyecto_concesionario.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import jakarta.persistence.*;
 import java.util.List;
@@ -35,6 +36,9 @@ public class Usuario {
     private String correo;
 
     @Column(nullable = false)
+    @Getter(onMethod = @__({@JsonIgnore}))
+    private String contrasena;
+
     private String contrasena; // Debería almacenarse cifrado
 
     private String telefono;

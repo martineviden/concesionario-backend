@@ -2,15 +2,12 @@ package com.atos.concesionario.proyecto_concesionario.Config;
 
 import com.atos.concesionario.proyecto_concesionario.Jwt.JwtUtils;
 import com.atos.concesionario.proyecto_concesionario.Security.CustomUserDetailsService;
-import com.atos.concesionario.proyecto_concesionario.Security.JwtAuthenticationFilter;
 import com.atos.concesionario.proyecto_concesionario.Security.JwtAuthorizationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.*;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -59,8 +56,7 @@ public class SeguridadConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		AuthenticationManager authManager = authenticationManager(http);
-		JwtAuthenticationFilter authFilter = new JwtAuthenticationFilter(authManager, jwtUtils);
+
 		JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(jwtUtils, userDetailsService); // 💡 Instanciado aquí
 
 		http
@@ -68,21 +64,29 @@ public class SeguridadConfig {
 				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/auth/**").permitAll()
+
+						// ✅ El registro se permite sin autenticación
 						.requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+
+						// 🔐 Estas requieren token con rol ADMIN
+						.requestMatchers(HttpMethod.POST, "/usuarios/**").hasAuthority("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/vehiculos/**").hasAuthority("ADMIN")
+						.requestMatchers(HttpMethod.PUT, "/vehiculos/**").hasAuthority("ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/vehiculos/**").hasAuthority("ADMIN")
+
+						// ✔️ Permitir reseñas y reservas públicas
 						.requestMatchers(HttpMethod.POST, "/resenas/**").permitAll()
 						.requestMatchers(HttpMethod.PUT, "/resenas/**").permitAll()
 						.requestMatchers(HttpMethod.DELETE, "/resenas/**").permitAll()
 						.requestMatchers(HttpMethod.POST, "/reservas/**").permitAll()
 						.requestMatchers(HttpMethod.DELETE, "/reservas/**").permitAll()
-						.requestMatchers(HttpMethod.POST, "/vehiculos/**").hasAuthority("ADMIN")
-						.requestMatchers(HttpMethod.PUT, "/vehiculos/**").hasAuthority("ADMIN")
-						.requestMatchers(HttpMethod.DELETE, "/vehiculos/**").hasAuthority("ADMIN")
-						.requestMatchers(HttpMethod.POST, "/usuarios/**").hasAuthority("ADMIN")
+
+						// Todo lo demás requiere autenticación
 						.anyRequest().authenticated()
 				)
+
 				.authenticationProvider(authenticationProvider())
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-				.addFilter(authFilter)
 				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();

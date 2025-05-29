@@ -51,21 +51,28 @@ public class AuthControlador {
 	public ResponseEntity<?> autenticarUsuario(@RequestBody LoginRequest loginRequest) {
 		try {
 			authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(loginRequest.getCorreo(), loginRequest.getContrasena())
+					new UsernamePasswordAuthenticationToken(
+							loginRequest.getCorreo(),
+							loginRequest.getContrasena()
+					)
 			);
-		}catch (BadCredentialsException e) {
-		System.out.println("❌ Error: BadCredentialsException");
-		e.printStackTrace();
-		return ResponseEntity.status(401).body("Credenciales inválidas");
-	}
+		} catch (BadCredentialsException e) {
+			System.out.println("❌ Error: BadCredentialsException");
+			return ResponseEntity.status(401).body(Map.of("autenticado", false, "mensaje", "Credenciales inválidas"));
+		}
 
-
-	// Cargar el usuario completo
 		Usuario usuario = usuarioServicio.obtenerPorCorreo(loginRequest.getCorreo());
+
+		// Limpiar la contraseña antes de enviar
+		usuario.setContrasena(null);
+
+		// Generar el token
 		String jwt = jwtUtils.generarToken(usuario.getCorreo(), usuario.getRol().name());
 
-		return ResponseEntity.ok(new JwtResponse(jwt, usuario.getRol().name()));
+		LoginResponse response = new LoginResponse(true, usuario, jwt, "Skin del tio ese 🐋😎🎁");
+		return ResponseEntity.ok(response);
 	}
+
 
 	@Data
 	public static class LoginRequest {
@@ -73,29 +80,17 @@ public class AuthControlador {
 		private String contrasena;
 	}
 
+
+
+
 	@Data
 	@AllArgsConstructor
-	public static class JwtResponse {
+	@NoArgsConstructor
+	public static class LoginResponse {
+		private boolean autenticado;
+		private Usuario usuario;
 		private String token;
-		private String rol;
+		private String regalo;
 	}
-
-
-	@PostMapping("/verificar-contrasena")
-	public String verificarContrasena(@RequestBody Map<String, String> payload) {
-		String correo = payload.get("correo");
-		String contrasenaPlano = payload.get("contrasena");
-
-		Usuario usuario = usuarioRepositorio.findByCorreo(correo)
-				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-		String hashEnBD = usuario.getContrasena();
-
-		boolean coincide = passwordEncoder.matches(contrasenaPlano, hashEnBD);
-
-		return coincide ? "✅ Coincide" : "❌ No coincide";
-	}
-
-
 
 }
