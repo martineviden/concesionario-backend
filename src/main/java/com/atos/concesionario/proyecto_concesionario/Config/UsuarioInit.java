@@ -20,11 +20,11 @@ public class UsuarioInit {
             if (usuarioRepositorio.findByCorreo(correoAdmin).isEmpty()) {
                 Usuario admin = Usuario.builder()
                         .nombre("Admin")
-                        .apellidos("Administrador")
+                        .apellidos("Admin")
                         .correo(correoAdmin)
-                        .dni("00000000A")
-                        .telefono("600000000")
-                        .contrasena(passwordEncoder.encode("admin123"))
+                        .dni(passwordEncoder.encode("00000000A"))
+                        .telefono("000000000")
+                        .contrasena(passwordEncoder.encode("admin"))
                         .rol(Usuario.Rol.ADMIN)
                         .build();
 

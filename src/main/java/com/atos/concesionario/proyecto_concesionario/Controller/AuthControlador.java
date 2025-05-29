@@ -9,11 +9,8 @@ import lombok.*;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.security.core.AuthenticationException;
 
 import java.util.Map;
 
@@ -65,14 +62,15 @@ public class AuthControlador {
 
 		// Limpiar la contraseña antes de enviar
 		usuario.setContrasena(null);
+		usuario.setReservas(null);
+		usuario.setResenas(null);
 
 		// Generar el token
 		String jwt = jwtUtils.generarToken(usuario.getCorreo(), usuario.getRol().name());
 
-		LoginResponse response = new LoginResponse(true, usuario, jwt, "Skin del tio ese 🐋😎🎁");
+		LoginResponse response = new LoginResponse(usuario, jwt);
 		return ResponseEntity.ok(response);
 	}
-
 
 	@Data
 	public static class LoginRequest {
@@ -80,17 +78,12 @@ public class AuthControlador {
 		private String contrasena;
 	}
 
-
-
-
 	@Data
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class LoginResponse {
-		private boolean autenticado;
 		private Usuario usuario;
 		private String token;
-		private String regalo;
 	}
 
 }

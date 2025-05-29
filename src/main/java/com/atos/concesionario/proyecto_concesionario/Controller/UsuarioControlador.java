@@ -3,7 +3,6 @@ package com.atos.concesionario.proyecto_concesionario.Controller;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,12 +28,9 @@ public class UsuarioControlador {
     
 
     private final UsuarioServicio usuarioServicio;
-    private final PasswordEncoder passwordEncoder;
-
 
     public UsuarioControlador(UsuarioServicio usuarioServicio, PasswordEncoder passwordEncoder) {
         this.usuarioServicio = usuarioServicio;
-        this.passwordEncoder = passwordEncoder;
     }
 
     // Endpoints CRUD
