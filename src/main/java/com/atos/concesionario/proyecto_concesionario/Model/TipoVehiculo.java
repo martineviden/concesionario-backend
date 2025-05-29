@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class TipoVehiculo {
 	public enum Tipo {
-		MOTO, COCHE, FURGONETA
+		MOTO, COCHE, FURGONETA, ELECTRICO, HIBRIDO
 	}
 
 	@Id
@@ -28,7 +28,7 @@ public class TipoVehiculo {
 	private double precio;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "tipo_vehiculo", nullable = false)
+	@Column(name = "tipo_vehiculo", nullable = false, length = 20)
 	private Tipo tipo;
 
 	@Column(name = "imagen")
