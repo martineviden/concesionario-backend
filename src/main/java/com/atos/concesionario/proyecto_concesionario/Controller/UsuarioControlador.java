@@ -17,9 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundException;
+import com.atos.concesionario.proyecto_concesionario.Model.LoginRequest;
+import com.atos.concesionario.proyecto_concesionario.Model.LoginResponse;
 import com.atos.concesionario.proyecto_concesionario.Model.Usuario;
 import com.atos.concesionario.proyecto_concesionario.Service.UsuarioServicio;
-
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -48,9 +49,16 @@ public class UsuarioControlador {
         return usuarioServicio.obtenerUsuarioPorId(usuarioId);
     }
 
+    @PostMapping("/correo")
+    public ResponseEntity<Usuario> obtenerUsuarioPorCorreo(@RequestBody Map<String, String> body) throws ResourceNotFoundException {
+        String correo = body.get("correo");
+        return usuarioServicio.obtenerUsuarioPorCorreo(correo);
+    }
+    
+
     @PostMapping
     public Usuario crearUsuario(@RequestBody Usuario usuario) {
-
+        System.out.println("Contrseña recibida: " + usuario.getContrasena());
         return usuarioServicio.crearUsuario(usuario);
     }
 
@@ -66,5 +74,11 @@ public class UsuarioControlador {
     }
 
     // Otros endpoints
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        LoginResponse response = usuarioServicio.autenticarUsuario(request.getCorreo(), request.getContrasena());
+        return ResponseEntity.ok(response);
+    }
 
 }
