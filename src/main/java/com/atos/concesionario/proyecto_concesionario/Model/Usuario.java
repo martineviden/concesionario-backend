@@ -36,7 +36,6 @@ public class Usuario {
     private String correo;
 
     @Column(nullable = false)
-    @Getter(onMethod = @__({@JsonIgnore}))
     private String contrasena;
 
     private String telefono;
