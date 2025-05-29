@@ -48,7 +48,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             System.out.println("🛡 Autenticación JWT exitosa para usuario: " + username);
         } else {
-            System.out.println(" Token JWT inválido");
+            System.out.println(" Token JWT inválido: " + token);
         }
 
         filterChain.doFilter(request, response);
