@@ -44,7 +44,7 @@ public class UsuarioServicio {
     	// Hashear dni y contraseña antes de guardar
         String contrasenaHasheada = passwordEncoder.encode(usuario.getContrasena());
 
-        usuario.setDni(dniHasheado);
+        usuario.setDni(dniCifrado);
         usuario.setContrasena(contrasenaHasheada);
     	return usuarioRepositorio.save(usuario);
     }
