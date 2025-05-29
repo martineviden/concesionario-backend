@@ -39,8 +39,6 @@ public class Usuario {
     @Getter(onMethod = @__({@JsonIgnore}))
     private String contrasena;
 
-    private String contrasena; // Debería almacenarse cifrado
-
     private String telefono;
 
     @Enumerated(EnumType.STRING)
