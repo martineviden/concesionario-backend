@@ -16,6 +16,7 @@ public class UsuarioInit {
         return args -> {
             String correoAdmin = "admin@admin.com";
 
+            System.out.println("Correo Admin: " + correoAdmin);
             if (usuarioRepositorio.findByCorreo(correoAdmin).isEmpty()) {
                 Usuario admin = Usuario.builder()
                         .nombre("Admin")
