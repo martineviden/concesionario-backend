@@ -89,6 +89,7 @@ public class Vehiculo {
 
 	@OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL)
 	@JsonBackReference
+
 	private List<Reserva> reservas;
 	
 	// Método helper para verificar tipo
