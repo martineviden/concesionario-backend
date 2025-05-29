@@ -2,16 +2,13 @@ package com.atos.concesionario.proyecto_concesionario.Model;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Table(name = "vehiculo")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Vehiculo {
 
 	public enum Combustible {
@@ -49,14 +46,13 @@ public class Vehiculo {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_tipo_vehiculo", nullable = false)
-	@JsonIgnoreProperties("vehiculos")
+	@JsonBackReference("tipoVehiculo-vehiculo")
 	private TipoVehiculo tipoVehiculo;
 
 	// Campos generales
 	@Column(nullable = false)
 	private String color;
 
-	@Column(name = "kilometraje")
 	private Integer kilometraje;
 
 	@Column(name = "disponibilidad")
