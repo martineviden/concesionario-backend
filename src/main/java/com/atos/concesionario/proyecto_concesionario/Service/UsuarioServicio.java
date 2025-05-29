@@ -51,7 +51,7 @@ public class UsuarioServicio {
         String dniHasheado = passwordEncoder.encode(usuario.getDni());
         String contrasenaHasheada = passwordEncoder.encode(usuario.getContrasena());
 
-        usuario.setDni(dniCifrado);
+        usuario.setDni(dniHasheado);
         usuario.setContrasena(contrasenaHasheada);
     	return usuarioRepositorio.save(usuario);
     }
