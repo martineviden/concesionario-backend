@@ -1,8 +1,6 @@
 package com.atos.concesionario.proyecto_concesionario.Repository;
 
 import com.atos.concesionario.proyecto_concesionario.Model.TipoVehiculo;
-import com.atos.concesionario.proyecto_concesionario.Model.TipoVehiculo.Tipo;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,6 @@ public class TipoVehiculoRepositorioTest {
 	    void setUp() {
 	        // Crear y guardar tipo de vehículo
 	        tipoVehiculo = new TipoVehiculo();
-	        tipoVehiculo.setTipo(Tipo.COCHE);
 	        tipoVehiculo.setMarca("Ford");
 	        tipoVehiculo.setModelo("Focus");
 	        tipoVehiculo.setPrecio(22000);
