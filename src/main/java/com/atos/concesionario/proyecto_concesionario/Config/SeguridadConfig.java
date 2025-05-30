@@ -67,26 +67,28 @@ public class SeguridadConfig {
 
 
 						.requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
-
-
 						.requestMatchers(HttpMethod.POST, "/usuarios/**").hasAuthority("ADMIN")
+
 						.requestMatchers(HttpMethod.POST, "/vehiculos/**").hasAuthority("ADMIN")
 						.requestMatchers(HttpMethod.PUT, "/vehiculos/**").hasAuthority("ADMIN")
 						.requestMatchers(HttpMethod.DELETE, "/vehiculos/**").hasAuthority("ADMIN")
 						.requestMatchers(HttpMethod.GET, "/vehiculos/**").permitAll()
 
-
 						.requestMatchers(HttpMethod.POST, "/resenas/**").permitAll()
 						.requestMatchers(HttpMethod.PUT, "/resenas/**").permitAll()
 						.requestMatchers(HttpMethod.DELETE, "/resenas/**").permitAll()
+
 						.requestMatchers(HttpMethod.POST, "/reservas/**").permitAll()
 						.requestMatchers(HttpMethod.DELETE, "/reservas/**").permitAll()
+
 						.requestMatchers(HttpMethod.GET,"/tipos-vehiculo").permitAll()
 						.requestMatchers(HttpMethod.GET,"/tipos-vehiculo/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/tipos-vehiculo/").permitAll()
+                        .requestMatchers(HttpMethod.DELETE,"/tipos-vehiculo/").permitAll()
+                        .requestMatchers(HttpMethod.PUT,"/tipos-vehiculo/").permitAll()
+
 						.requestMatchers(HttpMethod.GET,"/especificaciones/**").permitAll()
-						.requestMatchers(HttpMethod.POST,"/tipos-vehiculo/").permitAll()
-						.requestMatchers(HttpMethod.DELETE,"/tipos-vehiculo/").permitAll()
-						.requestMatchers(HttpMethod.PUT,"/tipos-vehiculo/").permitAll()
+
 
 						// Todo lo demás requiere autenticación
 						.anyRequest().authenticated()
