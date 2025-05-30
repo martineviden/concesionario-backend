@@ -41,6 +41,10 @@ public class ResenaServicio {
         return ResponseEntity.ok().body(resena);
     }
 
+    public List<Resena> obtenerResenasPorMatricula(String matricula) {
+        return resenaRepositorio.findByVehiculoMatricula(matricula);
+    }
+
     public Resena crearResena(Resena resena) {
         return resenaRepositorio.save(resena);
     }

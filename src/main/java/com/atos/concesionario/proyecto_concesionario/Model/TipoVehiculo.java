@@ -1,6 +1,6 @@
 package com.atos.concesionario.proyecto_concesionario.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,11 +9,9 @@ import java.util.List;
 @Entity
 @Table(name = "tipo_vehiculo")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class TipoVehiculo {
 	public enum Tipo {
-		MOTO, COCHE, FURGONETA
+		MOTO, COCHE, FURGONETA, ELECTRICO, HIBRIDO
 	}
 
 	@Id
@@ -30,14 +28,14 @@ public class TipoVehiculo {
 	private double precio;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "tipo_vehiculo", nullable = false)
+	@Column(name = "tipo_vehiculo", nullable = false, length = 20)
 	private Tipo tipo;
 
 	@Column(name = "imagen")
 	private String imagen;
 
 	@OneToMany(mappedBy = "tipoVehiculo", cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("tipoVehiculo")
+	@JsonManagedReference("tipoVehiculo-vehiculo")
 	private List<Vehiculo> vehiculos;
 
 }

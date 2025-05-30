@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundException;
-import com.atos.concesionario.proyecto_concesionario.Model.LoginRequest;
-import com.atos.concesionario.proyecto_concesionario.Model.LoginResponse;
 import com.atos.concesionario.proyecto_concesionario.Model.Usuario;
 import com.atos.concesionario.proyecto_concesionario.Service.UsuarioServicio;
+
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -28,8 +29,7 @@ public class UsuarioControlador {
 
     private final UsuarioServicio usuarioServicio;
 
-
-    public UsuarioControlador(UsuarioServicio usuarioServicio) {
+    public UsuarioControlador(UsuarioServicio usuarioServicio, PasswordEncoder passwordEncoder) {
         this.usuarioServicio = usuarioServicio;
     }
 
@@ -45,17 +45,19 @@ public class UsuarioControlador {
         return usuarioServicio.obtenerUsuarioPorId(usuarioId);
     }
 
-    @PostMapping("/correo")
-    public ResponseEntity<Usuario> obtenerUsuarioPorCorreo(@RequestBody Map<String, String> body) throws ResourceNotFoundException {
-        String correo = body.get("correo");
-        return usuarioServicio.obtenerUsuarioPorCorreo(correo);
-    }
-    
-
     @PostMapping
-    public Usuario crearUsuario(@RequestBody Usuario usuario) {
-        System.out.println("Contrseña recibida: " + usuario.getContrasena());
-        return usuarioServicio.crearUsuario(usuario);
+    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario, Authentication auth) {
+        // Si alguien intenta crear un ADMIN...
+        if (usuario.getRol() == Usuario.Rol.ADMIN) {
+            // Solo permitirlo si está autenticado y es ADMIN
+            if (auth == null || auth.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ADMIN"))) {
+                return ResponseEntity.status(403).build();
+            }
+        }
+
+        Usuario creado = usuarioServicio.crearUsuario(usuario);
+        creado.setContrasena(null); // seguridad extra
+        return ResponseEntity.ok(creado);
     }
 
     @PutMapping("/{usuarioId}")
@@ -69,11 +71,5 @@ public class UsuarioControlador {
     }
 
     // Otros endpoints
-
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
-        LoginResponse response = usuarioServicio.autenticarUsuario(request.getCorreo(), request.getContrasena());
-        return ResponseEntity.ok(response);
-    }
 
 }

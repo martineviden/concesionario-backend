@@ -40,6 +40,11 @@ public class ResenaControlador {
         return resenaServicio.obtenerResenaPorId(id);
     }
 
+    @GetMapping("/matricula/{matricula}")
+    public List<Resena> obtenerResenasPorMatricula(@PathVariable String matricula) throws ResourceNotFoundException {
+        return resenaServicio.obtenerResenasPorMatricula(matricula);
+    }
+
     @PostMapping
     public Resena crearResena(@RequestBody Resena resena) {
         return resenaServicio.crearResena(resena);

@@ -1,5 +1,6 @@
 package com.atos.concesionario.proyecto_concesionario.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import jakarta.persistence.*;
 import java.util.List;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Usuario {
 
     public enum Rol {
@@ -34,7 +36,7 @@ public class Usuario {
     private String correo;
 
     @Column(nullable = false)
-    private String contrasena; // Debería almacenarse cifrado
+    private String contrasena;
 
     private String telefono;
 
@@ -42,12 +44,12 @@ public class Usuario {
     @Column(nullable = false)
     private Rol rol;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     @JsonManagedReference("usuario-reserva")
-    private List<Reserva> reservas;
-
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Reserva> reservas = List.of();
+
     @JsonManagedReference("usuario-resena")
-    private List<Resena> resenas;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Resena> resenas = List.of();
 
 }
