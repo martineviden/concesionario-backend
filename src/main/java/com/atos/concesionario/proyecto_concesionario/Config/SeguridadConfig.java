@@ -85,7 +85,8 @@ public class SeguridadConfig {
 
 						.requestMatchers(HttpMethod.GET,"/tipos-vehiculo").permitAll()
 						.requestMatchers(HttpMethod.GET,"/tipos-vehiculo/**").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/tipos-vehiculo/").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/tipos-vehiculo/").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/tipos-vehiculo/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE,"/tipos-vehiculo/").permitAll()
                         .requestMatchers(HttpMethod.PUT,"/tipos-vehiculo/").permitAll()
 
