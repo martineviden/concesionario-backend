@@ -14,7 +14,6 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
     
     List<Usuario> findByRol(Usuario.Rol rol);
     Optional<Usuario> findByCorreo(String correo);
-    Reserva findById(long id);
 
 
 

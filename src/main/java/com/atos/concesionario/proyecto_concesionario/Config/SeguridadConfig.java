@@ -67,7 +67,7 @@ public class SeguridadConfig {
 
 
 						.requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
-						.requestMatchers(HttpMethod.POST, "/usuarios/**").hasAuthority("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/usuarios/**").permitAll() //.hasAuthority("ADMIN")
 
 						.requestMatchers(HttpMethod.POST, "/vehiculos/**").hasAuthority("ADMIN")
 						.requestMatchers(HttpMethod.PUT, "/vehiculos/**").hasAuthority("ADMIN")
