@@ -80,6 +80,8 @@ public class SeguridadConfig {
 
 						.requestMatchers(HttpMethod.POST, "/reservas/**").permitAll()
 						.requestMatchers(HttpMethod.DELETE, "/reservas/**").permitAll()
+						.requestMatchers(HttpMethod.GET, "/reservas/usuario/**").permitAll()
+
 
 						.requestMatchers(HttpMethod.GET,"/tipos-vehiculo").permitAll()
 						.requestMatchers(HttpMethod.GET,"/tipos-vehiculo/**").permitAll()
