@@ -49,22 +49,33 @@ public class AuthControlador {
 
 	@PostMapping("/login")
 	public ResponseEntity<?> autenticarUsuario(@RequestBody LoginRequest loginRequest) {
-		try {
-			authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(loginRequest.getCorreo(), loginRequest.getContrasena())
-			);
-		}catch (BadCredentialsException e) {
-		System.out.println("❌ Error: BadCredentialsException");
-		e.printStackTrace();
-		return ResponseEntity.status(401).body("Credenciales inválidas");
-	}
+	    try {
+	        // 1. Verificar primero si el usuario existe
+	        Usuario usuario = usuarioServicio.obtenerPorCorreo(loginRequest.getCorreo());
+	        if (usuario == null) {
+	            return ResponseEntity.status(401).body("Usuario no encontrado");
+	        }
 
+	        // 2. Autenticación con Spring Security
+	        Authentication authentication = authenticationManager.authenticate(
+	            new UsernamePasswordAuthenticationToken(
+	                loginRequest.getCorreo(),
+	                loginRequest.getContrasena()
+	            )
+	        );
 
-	// Cargar el usuario completo
-		Usuario usuario = usuarioServicio.obtenerPorCorreo(loginRequest.getCorreo());
-		String jwt = jwtUtils.generarToken(usuario.getCorreo(), usuario.getRol().name());
+	        // 3. Generar JWT si la autenticación fue exitosa
+	        String jwt = jwtUtils.generarToken(usuario.getCorreo(), usuario.getRol().name());
+	        
+	        return ResponseEntity.ok(new JwtResponse(jwt, usuario.getRol().name()));
 
-		return ResponseEntity.ok(new JwtResponse(jwt, usuario.getRol().name()));
+	    } catch (BadCredentialsException e) {
+	        System.err.println("Error en credenciales para: " + loginRequest.getCorreo());
+	        return ResponseEntity.status(401).body("Credenciales inválidas");
+	    } catch (AuthenticationException e) {
+	        System.err.println("Error de autenticación: " + e.getMessage());
+	        return ResponseEntity.status(401).body("Error en autenticación");
+	    }
 	}
 
 	@Data
