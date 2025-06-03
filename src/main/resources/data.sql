@@ -57,9 +57,9 @@ INSERT INTO vehiculo (matricula, id_tipo_vehiculo, color, kilometraje, disponibi
 
 -- Insertar usuarios
 INSERT INTO usuario (dni, nombre, apellidos, correo, contrasena, telefono, rol) VALUES
-('$2a$10$gvxmcMy2LV5hyIVdXkODN.XYnkihxIgRR3ilc8yr0ccMqtOwSVmSe', 'Admin', 'Admin', 'admin@admin.com', '$2a$10$/G8wzOlaczFdFppYhi9WFOcQ71BEE/bD98RGRT4TWjCG8u/RwUj0i', '000000000', 'ADMIN'),
-('$2a$10$Mrfc7RH/hO2DDlFbnnUTNehtOL2udC8JIk8BNhamX/wyhslE1ij9W', 'Juan', 'Perez', 'juan@example.com', '$2a$10$vWft.n4G.wS6zIJawIT4jeNSLO9uszF6O7LoGOhGLhRbeDXX0W6xO', '620212324', 'CLIENTE'),
-('$2a$10$OSsA2ZGjJIac11pNmrws2.Vq02yLMGVEmgjnaj.zVVqr8jyvoiJ.i', 'Alicia', 'Gomez', 'alicia@example.com', '$2a$10$lagHtOUymSe/Qan0T.UWAuB5E.VOLHs8/Evyx41cxX6NYnJbIFvtG', '629282726', 'CLIENTE');
+('LAbHrvBn9fDopYWhoH2DuQ==', 'Admin', 'Admin', 'admin@admin.com', '$2a$10$MLNLS.v0Lk7PXl9OpzGXPuQeEG/IwdYyao4QItwyeZ9/gzRtpeKxm', '000000000', 'ADMIN'),
+('V+IGhTcfz3t9vNDXyo86vQ==', 'Juan', 'Perez', 'juan@example.com', '$2a$10$kUGD/49.zo/O9WjleYtWu.icuLg5Hia35dc1leU75Ml7nXdsuHrmu', '620212324', 'CLIENTE'),
+('RwR3GARGkc3OyZatPIuJog==', 'Alicia', 'Gomez', 'alicia@example.com', '$2a$10$zy1fGbFBgr6jaBg0G.26lOWF8fhSd0gAoRvVFfIvPkhG4n/8bbotu', '629282726', 'CLIENTE');
 -- Insertar reservas
 INSERT INTO reserva (matricula, id_usuario, fecha_reserva, dias_reserva, precio) VALUES
 ('2345PQR', 1, '2025-05-29', 1, 30.00),
