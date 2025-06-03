@@ -18,7 +18,4 @@ public interface ReservaRepositorio extends JpaRepository<Reserva, Long> {
     List<Reserva> findByFechaReservaBetween(LocalDate inicio, LocalDate fin);
     
     List<Reserva> findByFechaReservaAfter(LocalDate fecha);
-
-
-
 }

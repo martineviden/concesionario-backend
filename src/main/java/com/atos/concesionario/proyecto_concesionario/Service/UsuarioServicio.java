@@ -76,19 +76,9 @@ public class UsuarioServicio {
 
         // Hashear nueva contraseña si se actualiza
         if (usuarioDetalles.getContrasena() != null && !usuarioDetalles.getContrasena().isBlank()) {
-            System.out.println(" Se ha recibido una contraseña no vacía");
-
-            if (!passwordEncoder.matches(usuarioDetalles.getContrasena(), usuario.getContrasena())) {
-                System.out.println(" Contraseña nueva detectada. Hasheando y actualizando...");
-                String nuevaContrasenaHasheada = passwordEncoder.encode(usuarioDetalles.getContrasena());
-                usuario.setContrasena(nuevaContrasenaHasheada);
-            } else {
-                System.out.println(" La contraseña recibida es igual a la ya hasheada. No se actualiza.");
-            }
-        } else {
-            System.out.println(" No se recibió una nueva contraseña (nula o en blanco). Se mantiene la actual.");
+            String nuevaContrasenaHasheada = passwordEncoder.encode(usuarioDetalles.getContrasena());
+            usuario.setContrasena(nuevaContrasenaHasheada);
         }
-
 
         usuario.setTelefono(usuarioDetalles.getTelefono());
         usuario.setRol(usuarioDetalles.getRol());

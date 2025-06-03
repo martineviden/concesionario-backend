@@ -3,7 +3,6 @@ package com.atos.concesionario.proyecto_concesionario.Controller;
 import java.util.List;
 import java.util.Map;
 
-import com.atos.concesionario.proyecto_concesionario.Repository.UsuarioRepositorio;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,11 +25,9 @@ import com.atos.concesionario.proyecto_concesionario.Service.ReservaServicio;
 public class ReservaControlador {
 
     private final ReservaServicio reservaServicio;
-    private final UsuarioRepositorio usuarioRepositorio;
 
-    public ReservaControlador(ReservaServicio reservaServicio, UsuarioRepositorio usuarioRepositorio) {
+    public ReservaControlador(ReservaServicio reservaServicio) {
         this.reservaServicio = reservaServicio;
-        this.usuarioRepositorio = usuarioRepositorio;
     }
 
     @GetMapping
@@ -57,15 +54,4 @@ public class ReservaControlador {
     public Map<String, Boolean> eliminarReserva(@PathVariable Long id) throws ResourceNotFoundException {
         return reservaServicio.eliminarReserva(id);
     }
-
-    @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<?> obtenerReservasPorUsuario(@PathVariable Long usuarioId) {
-        if (!usuarioRepositorio.existsById(usuarioId)) {
-            return ResponseEntity.status(404).body(Map.of("mensaje", "Usuario no encontrado"));
-        }
-
-        List<Reserva> reservas = reservaServicio.obtenerReservasPorUsuario(usuarioId);
-        return ResponseEntity.ok(reservas);
-    }
-
 }
