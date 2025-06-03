@@ -56,8 +56,6 @@ public class Vehiculo {
     @Column(nullable = false)
     private String color;
 
-    private String marca;
-
     private Integer kilometraje;
 
     @Column(name = "disponibilidad")
