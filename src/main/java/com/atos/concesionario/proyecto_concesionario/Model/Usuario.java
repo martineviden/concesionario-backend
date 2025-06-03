@@ -46,10 +46,10 @@ public class Usuario {
 
     @JsonManagedReference("usuario-reserva")
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<Reserva> reservas = List.of();
+    private List<Reserva> reservas;
 
     @JsonManagedReference("usuario-resena")
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<Resena> resenas = List.of();
+    private List<Resena> resenas;
 
 }
