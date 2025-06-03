@@ -1,12 +1,7 @@
 package com.atos.concesionario.proyecto_concesionario.Model;
 
 import java.util.List;
-
-<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-=======
-import com.fasterxml.jackson.annotation.JsonBackReference;
->>>>>>> acb209bc27d37db97a41b4ddb170a034f91d75f5
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -96,58 +91,8 @@ public class Vehiculo {
     @OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL)
     private List<Reserva> reservas;
 	
-<<<<<<< HEAD
-=======
-	@ManyToOne
-	@JoinColumn(name = "id_tipo_vehiculo", nullable = false)
-	@JsonBackReference("tipoVehiculo-vehiculo")
-	private TipoVehiculo tipoVehiculo;
-
-	// Campos generales
-	@Column(nullable = false)
-	private String color;
-
-	private Integer kilometraje;
-
-	@Column(name = "disponibilidad")
-	private Boolean disponibilidad;
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "ubicacion", nullable = false)
-	private Provincia ubicacion;
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "combustible")
-	private Combustible combustible;
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "etiqueta")
-	private EtiquetaAmbiental etiqueta;
-
-	@Column(name = "autonomia")
-	private Integer autonomia;
-
-	// Campos condicionales según tipo
-	@Column(name = "puertas")
-	private Integer puertas;
-
-	@Column(name = "aire_acondicionado")
-	private Boolean aireAcondicionado;
-
-	@Column(name = "plazas")
-	private Integer plazas;
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "transmision")
-	private Transmision transmision;
-
-	@OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL)
-	@JsonBackReference
-
-	private List<Reserva> reservas;
 	
 	// Método helper para verificar tipo
->>>>>>> acb209bc27d37db97a41b4ddb170a034f91d75f5
     public boolean esMoto() {
         return tipoVehiculo.getTipo() == TipoVehiculo.Tipo.MOTO;
     }
