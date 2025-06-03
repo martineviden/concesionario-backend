@@ -73,7 +73,7 @@ public class AuthControlador {
 	}
 
 	@Data
-	public class LoginRequest {
+	public static class LoginRequest {
 		private String correo;
 		private String contrasena;
 	}
@@ -81,7 +81,7 @@ public class AuthControlador {
 	@Data
 	@AllArgsConstructor
 	@NoArgsConstructor
-	public class LoginResponse {
+	public static class LoginResponse {
 		private Usuario usuario;
 		private String token;
 	}
