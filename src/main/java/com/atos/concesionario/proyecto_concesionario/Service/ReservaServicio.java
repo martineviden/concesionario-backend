@@ -61,4 +61,9 @@ public class ReservaServicio {
         respuesta.put("Reserva eliminada", Boolean.TRUE);
         return respuesta;
     }
+
+    public List<Reserva> obtenerReservasPorUsuario(Long usuarioId) {
+        return reservaRepositorio.findByUsuarioId(usuarioId);
+    }
+
 }

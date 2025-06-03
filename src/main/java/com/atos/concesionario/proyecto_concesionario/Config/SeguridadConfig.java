@@ -67,8 +67,8 @@ public class SeguridadConfig {
 
 
 						.requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
-						.requestMatchers(HttpMethod.POST, "/usuarios/**").hasAuthority("ADMIN")
-
+						.requestMatchers(HttpMethod.POST, "/usuarios/**").permitAll() //.hasAuthority("ADMIN")
+						.requestMatchers(HttpMethod.PUT, "/usuarios/**").permitAll()
 						.requestMatchers(HttpMethod.POST, "/vehiculos/**").hasAuthority("ADMIN")
 						.requestMatchers(HttpMethod.PUT, "/vehiculos/**").hasAuthority("ADMIN")
 						.requestMatchers(HttpMethod.DELETE, "/vehiculos/**").hasAuthority("ADMIN")
@@ -80,10 +80,13 @@ public class SeguridadConfig {
 
 						.requestMatchers(HttpMethod.POST, "/reservas/**").permitAll()
 						.requestMatchers(HttpMethod.DELETE, "/reservas/**").permitAll()
+						.requestMatchers(HttpMethod.GET, "/reservas/usuario/**").permitAll()
+
 
 						.requestMatchers(HttpMethod.GET,"/tipos-vehiculo").permitAll()
 						.requestMatchers(HttpMethod.GET,"/tipos-vehiculo/**").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/tipos-vehiculo/").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/tipos-vehiculo/").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/tipos-vehiculo/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE,"/tipos-vehiculo/").permitAll()
                         .requestMatchers(HttpMethod.PUT,"/tipos-vehiculo/").permitAll()
 
