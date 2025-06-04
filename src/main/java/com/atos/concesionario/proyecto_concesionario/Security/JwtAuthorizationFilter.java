@@ -46,7 +46,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             SecurityContextHolder.getContext().setAuthentication(authToken);
 
-            System.out.println("🛡 Autenticación JWT exitosa para usuario: " + username);
+            System.out.println(" Autenticación JWT exitosa para usuario: " + username);
         } else {
             System.out.println(" Token JWT inválido: " + token);
         }

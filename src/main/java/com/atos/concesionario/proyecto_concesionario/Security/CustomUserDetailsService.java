@@ -13,10 +13,14 @@ import java.util.List;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-	@Autowired
-	private UsuarioRepositorio usuarioRepositorio;
 
-	@Override
+	private final UsuarioRepositorio usuarioRepositorio;
+
+    public CustomUserDetailsService(UsuarioRepositorio usuarioRepositorio) {
+        this.usuarioRepositorio = usuarioRepositorio;
+    }
+
+    @Override
 	public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
 		System.out.println(" Buscando usuario con correo: " + correo);
 
@@ -31,7 +35,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 		return new org.springframework.security.core.userdetails.User(
 				usuario.getCorreo(),
 				usuario.getContrasena(),
-				List.of(new SimpleGrantedAuthority(usuario.getRol().name()))
+				List.of(new SimpleGrantedAuthority("ROLE_" + usuario.getRol()))
+
+
 
 		);
 	}
