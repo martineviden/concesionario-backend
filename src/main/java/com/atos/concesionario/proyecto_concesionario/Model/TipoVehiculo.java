@@ -1,6 +1,8 @@
 package com.atos.concesionario.proyecto_concesionario.Model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,6 +11,10 @@ import java.util.List;
 @Entity
 @Table(name = "tipo_vehiculo")
 @Data
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property = "id"
+)
 public class TipoVehiculo {
 	public enum Tipo {
 		MOTO, COCHE, FURGONETA, ELECTRICO, HIBRIDO
@@ -35,7 +41,6 @@ public class TipoVehiculo {
 	private String imagen;
 
 	@OneToMany(mappedBy = "tipoVehiculo", cascade = CascadeType.ALL)
-	@JsonManagedReference("tipoVehiculo-vehiculo")
 	private List<Vehiculo> vehiculos;
 
 }

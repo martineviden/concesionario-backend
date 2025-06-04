@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.atos.concesionario.proyecto_concesionario.Repository.TipoVehiculoRepositorio;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,11 @@ import com.atos.concesionario.proyecto_concesionario.Repository.VehiculoReposito
 public class VehiculoServicio {
 
     private final VehiculoRepositorio vehiculoRepositorio;
+    private final TipoVehiculoRepositorio tipoVehiculoRepositorio;
 
-    public VehiculoServicio(VehiculoRepositorio vehiculoRepositorio) {
+    public VehiculoServicio(VehiculoRepositorio vehiculoRepositorio, TipoVehiculoRepositorio tipoVehiculoRepositorio) {
         this.vehiculoRepositorio = vehiculoRepositorio;
+        this.tipoVehiculoRepositorio = tipoVehiculoRepositorio;
     }
 
     // Métodos CRUD
@@ -37,7 +40,21 @@ public class VehiculoServicio {
 		return vehiculoRepositorio.findByUbicacion(ubicacion);
 	}
 
+
     public Vehiculo crearVehiculo(Vehiculo vehiculo) {
+        // Validar que venga el ID
+        if (vehiculo.getTipoVehiculo() == null || vehiculo.getTipoVehiculo().getId() == null) {
+            throw new IllegalArgumentException("Debe proporcionar el id del tipo de vehículo.");
+        }
+
+        // Buscar el tipo real desde la base
+        TipoVehiculo tipoPersistido = tipoVehiculoRepositorio.findById(vehiculo.getTipoVehiculo().getId())
+                .orElseThrow(() -> new IllegalArgumentException("TipoVehiculo no encontrado con ID: " + vehiculo.getTipoVehiculo().getId()));
+
+        // Asignar el objeto existente
+        vehiculo.setTipoVehiculo(tipoPersistido);
+
+        // Guardar vehículo
         return vehiculoRepositorio.save(vehiculo);
     }
 
