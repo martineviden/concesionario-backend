@@ -51,6 +51,7 @@ public class Vehiculo {
 
     @ManyToOne
     @JoinColumn(name = "id_tipo_vehiculo", nullable = false)
+    @JsonIgnoreProperties({"marca", "modelo", "precio", "tipo", "imagen", "vehiculos"})
     private TipoVehiculo tipoVehiculo;
 
     // Campos generales
