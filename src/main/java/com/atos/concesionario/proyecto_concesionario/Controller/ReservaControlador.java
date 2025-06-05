@@ -3,6 +3,8 @@ package com.atos.concesionario.proyecto_concesionario.Controller;
 import java.util.List;
 import java.util.Map;
 
+import com.atos.concesionario.proyecto_concesionario.Repository.ReservaRepositorio;
+import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,9 +27,11 @@ import com.atos.concesionario.proyecto_concesionario.Service.ReservaServicio;
 public class ReservaControlador {
 
     private final ReservaServicio reservaServicio;
+    private final ReservaRepositorio reservaRepositorio;
 
-    public ReservaControlador(ReservaServicio reservaServicio) {
+    public ReservaControlador(ReservaServicio reservaServicio, ReservaRepositorio reservaRepositorio) {
         this.reservaServicio = reservaServicio;
+        this.reservaRepositorio = reservaRepositorio;
     }
 
     @GetMapping
@@ -53,5 +57,11 @@ public class ReservaControlador {
     @DeleteMapping("/{id}")
     public Map<String, Boolean> eliminarReserva(@PathVariable Long id) throws ResourceNotFoundException {
         return reservaServicio.eliminarReserva(id);
+    }
+
+    @Transactional
+    @DeleteMapping("/matricula/{matricula}")
+    public ResponseEntity<?> eliminarReservasPorMatricula(@PathVariable String matricula) {
+        return reservaServicio.eliminarReservasPorMatricula( matricula);
     }
 }
