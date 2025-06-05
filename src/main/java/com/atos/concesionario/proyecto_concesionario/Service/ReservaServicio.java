@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.atos.concesionario.proyecto_concesionario.Repository.ResenaRepositorio;
+import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +20,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class ReservaServicio {
 
     private final ReservaRepositorio reservaRepositorio;
+    private final ResenaRepositorio resenaRepositorio;
 
-    public ReservaServicio(ReservaRepositorio reservaRepositorio) {
+    public ReservaServicio(ReservaRepositorio reservaRepositorio, ResenaRepositorio resenaRepositorio) {
         this.reservaRepositorio = reservaRepositorio;
+        this.resenaRepositorio = resenaRepositorio;
     }
 
     // Métodos CRUD
@@ -64,8 +68,17 @@ public class ReservaServicio {
         return respuesta;
     }
 
-    public ResponseEntity<?> eliminarReservasPorMatricula(String matricula) {
-        int count = reservaRepositorio.deleteByVehiculoMatricula(matricula);
-        return ResponseEntity.ok("Reservas eliminadas " + count);
+    @Transactional
+    @DeleteMapping("/reservas/matricula/{matricula}")
+    public ResponseEntity<Map<String, Object>> eliminarReservasPorMatricula(@PathVariable String matricula) {
+        List<Reserva> reservas = reservaRepositorio.findByVehiculoMatricula(matricula);
+
+        for (Reserva reserva : reservas) {
+            resenaRepositorio.deleteResenaById(reserva.getId()); // Elimina reseñas ligadas
+        }
+
+        reservaRepositorio.deleteAll(reservas); // Luego elimina las reservas
+        return ResponseEntity.ok(Map.of("mensaje", "Reservas eliminadas"));
     }
+
 }

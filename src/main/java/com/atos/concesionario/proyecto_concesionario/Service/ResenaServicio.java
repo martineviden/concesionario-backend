@@ -76,9 +76,12 @@ public class ResenaServicio {
         return respuesta;
     }
 
-    public ResponseEntity<?> eliminarResenasPorMatricula( String matricula){
-        int count = resenaRepositorio.deleteByVehiculoMatricula(matricula);
-        return ResponseEntity.ok("Reseñas eliminadas " + count);
+    public ResponseEntity<Map<String, Object>> eliminarResenasPorMatricula( String matricula){
+        int eliminadas = resenaRepositorio.deleteByVehiculoMatricula(matricula); // o el método equivalente
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("mensaje", "Reseñas eliminadas");
+        respuesta.put("total", eliminadas);
+        return ResponseEntity.ok(respuesta);
     }
 }
 

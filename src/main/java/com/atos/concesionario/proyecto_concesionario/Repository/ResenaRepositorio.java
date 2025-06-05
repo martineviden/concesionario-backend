@@ -20,4 +20,6 @@ public interface ResenaRepositorio extends JpaRepository<Resena, Long> {
     List<Resena> findByPuntuacionGreaterThanEqual(int puntuacionMinima);
 
     int deleteByVehiculoMatricula(String matricula);
+
+    void deleteResenaById(Long id);
 }

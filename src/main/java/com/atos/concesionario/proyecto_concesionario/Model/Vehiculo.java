@@ -92,7 +92,7 @@ public class Vehiculo {
     @Column(name = "transmision")
     private Transmision transmision;
 
-    @OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "vehiculo", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference("vehiculo-reserva")
     private List<Reserva> reservas;
 	

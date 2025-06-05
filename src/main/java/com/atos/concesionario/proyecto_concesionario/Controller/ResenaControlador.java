@@ -66,7 +66,7 @@ public class ResenaControlador {
 
     @Transactional
     @DeleteMapping("/matricula/{matricula}")
-    public ResponseEntity<?> eliminarResenasPorMatricula(@PathVariable String matricula){
+    public ResponseEntity<Map<String, Object>> eliminarResenasPorMatricula(@PathVariable String matricula){
         return resenaServicio.eliminarResenasPorMatricula( matricula);
     }
 }
