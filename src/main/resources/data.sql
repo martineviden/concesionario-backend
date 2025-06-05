@@ -1,18 +1,18 @@
 -- Insertar tipos de vehículos
 INSERT INTO tipo_vehiculo (marca, modelo, precio, tipo_vehiculo, imagen) VALUES 
 ('Audi', 'A3', 65.00, 'COCHE', ''),
-('BMW', 'Serie 3', 60.00, 'COCHE', ''),
-('Citroën', 'Berlingo', 45.00, 'FURGONETA', ''),
-('Ducati', 'Monster 821', 18.00, 'MOTO', ''),
+('BMW', 'Serie3', 60.00, 'COCHE', ''),
+('Citroen', 'Berlingo', 45.00, 'FURGONETA', ''),
+('Ducati', 'Monster821', 18.00, 'MOTO', ''),
 ('Fiat', 'Ducato', 52.00, 'FURGONETA', ''),
 ('Ford', 'Focus', 30.00, 'COCHE', ''),
-('Harley-Davidson', 'Iron 883', 20.00, 'MOTO', ''),
+('Harley-Davidson', 'Iron883', 20.00, 'MOTO', ''),
 ('Honda', 'CBR600RR', 15.00, 'MOTO', ''),
 ('Hyundai', 'i20N', 35.00, 'COCHE', ''),
-('Kawasaki', 'Ninja 400', 14.00, 'MOTO', ''),
+('Kawasaki', 'Ninja400', 14.00, 'MOTO', ''),
 ('Mercedes-Benz', 'Sprinter', 55.00, 'FURGONETA', ''),
 ('Nissan', 'Leaf', 40.00, 'COCHE', ''),
-('Opel', 'Combo Life', 48.00, 'FURGONETA', ''),
+('Opel', 'ComboLife', 48.00, 'FURGONETA', ''),
 ('Peugeot', '208', 28.00, 'COCHE', ''),
 ('Renault', 'Clio', 27.00, 'COCHE', ''),
 ('Seat', 'Ibiza', 29.00, 'COCHE', ''),
@@ -25,7 +25,7 @@ INSERT INTO tipo_vehiculo (marca, modelo, precio, tipo_vehiculo, imagen) VALUES
 -- Insertar vehículos
 INSERT INTO vehiculo (matricula, id_tipo_vehiculo, color, kilometraje, disponibilidad, ubicacion, combustible, etiqueta, autonomia, puertas, aire_acondicionado, plazas, transmision) VALUES
 ('0000JJJ', 17, 'Gris', 40000, FALSE, 'PONTEVEDRA', 'DIESEL', 'C', NULL, 3, TRUE, 3, 'MANUAL'),
-('0120NBB', 7, 'Negro', 25000, FALSE, 'MADRID', 'GASOLINA', 'C', NULL, 5, TRUE, 5, 'MANUAL'),
+('0120NBB', 7, 'Negro', 25000, FALSE, 'MADRID', 'GASOLINA', 'C', NULL, 5, TRUE, 2, 'MANUAL'),
 ('1111AAA', 8, 'Rojo', 15000, TRUE, 'ZARAGOZA', 'GASOLINA', 'C', NULL, 5, TRUE, 5, 'MANUAL'),
 ('1212KKK', 18, 'Azul', 13000, TRUE, 'CORDOBA', 'ELECTRICO', 'CERO', 300, 5, TRUE, 5, 'AUTOMATICO'),
 ('1234ABC', 1, 'Blanco', 20000, TRUE, 'MADRID', 'ELECTRICO', 'CERO', 350, 5, TRUE, 5, 'AUTOMATICO'),
