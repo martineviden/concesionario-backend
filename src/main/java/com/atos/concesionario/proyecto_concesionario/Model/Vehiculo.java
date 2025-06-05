@@ -51,6 +51,7 @@ public class Vehiculo {
 
     @ManyToOne
     @JoinColumn(name = "id_tipo_vehiculo", nullable = false)
+    @JsonIgnoreProperties({"marca", "modelo", "precio", "tipo", "imagen", "vehiculos"})
     private TipoVehiculo tipoVehiculo;
 
     // Campos generales
@@ -91,7 +92,7 @@ public class Vehiculo {
     @Column(name = "transmision")
     private Transmision transmision;
 
-    @OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "vehiculo", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference("vehiculo-reserva")
     private List<Reserva> reservas;
 	

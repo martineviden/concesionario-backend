@@ -110,7 +110,8 @@ public class SeguridadConfig {
 //                        .requestMatchers(HttpMethod.PUT,"/tipos-vehiculo/").permitAll()
 //
 //						.requestMatchers(HttpMethod.GET,"/especificaciones/**").permitAll()
-//
+//						.requestMatchers(HttpMethod.DELETE, "/reservas/matricula/**").hasAuthority("ROLE_ADMIN")
+//						.requestMatchers(HttpMethod.DELETE, "/resenas/matricula/**").hasAuthority("ROLE_ADMIN")
 //
 //						// Todo lo demás requiere autenticación
 //						.anyRequest().authenticated()

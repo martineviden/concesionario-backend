@@ -5,20 +5,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.atos.concesionario.proyecto_concesionario.Repository.ResenaRepositorio;
+import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundException;
 import com.atos.concesionario.proyecto_concesionario.Model.Reserva;
 import com.atos.concesionario.proyecto_concesionario.Repository.ReservaRepositorio;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class ReservaServicio {
 
     private final ReservaRepositorio reservaRepositorio;
+    private final ResenaRepositorio resenaRepositorio;
 
-    public ReservaServicio(ReservaRepositorio reservaRepositorio) {
+    public ReservaServicio(ReservaRepositorio reservaRepositorio, ResenaRepositorio resenaRepositorio) {
         this.reservaRepositorio = reservaRepositorio;
+        this.resenaRepositorio = resenaRepositorio;
     }
 
     // Métodos CRUD
@@ -65,4 +71,17 @@ public class ReservaServicio {
     public List<Reserva> obtenerReservasPorUsuario(Long idUsuario) {
         return reservaRepositorio.findByUsuarioId(idUsuario);
     }
+    @Transactional
+    @DeleteMapping("/reservas/matricula/{matricula}")
+    public ResponseEntity<Map<String, Object>> eliminarReservasPorMatricula(@PathVariable String matricula) {
+        List<Reserva> reservas = reservaRepositorio.findByVehiculoMatricula(matricula);
+
+        for (Reserva reserva : reservas) {
+            resenaRepositorio.deleteResenaById(reserva.getId()); // Elimina reseñas ligadas
+        }
+
+        reservaRepositorio.deleteAll(reservas); // Luego elimina las reservas
+        return ResponseEntity.ok(Map.of("mensaje", "Reservas eliminadas"));
+    }
+
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundException;
 import com.atos.concesionario.proyecto_concesionario.Model.Resena;
 import com.atos.concesionario.proyecto_concesionario.Repository.ResenaRepositorio;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class ResenaServicio {
@@ -75,6 +76,14 @@ public class ResenaServicio {
         return respuesta;
     }
 
+    public ResponseEntity<Map<String, Object>> eliminarResenasPorMatricula( String matricula){
+        int eliminadas = resenaRepositorio.deleteByVehiculoMatricula(matricula); // o el método equivalente
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("mensaje", "Reseñas eliminadas");
+        respuesta.put("total", eliminadas);
+        return ResponseEntity.ok(respuesta);
+    }
+}
+
     // Otros métodos
 
-}
