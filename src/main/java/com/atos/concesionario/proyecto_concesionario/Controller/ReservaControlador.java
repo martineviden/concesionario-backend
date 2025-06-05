@@ -54,4 +54,9 @@ public class ReservaControlador {
     public Map<String, Boolean> eliminarReserva(@PathVariable Long id) throws ResourceNotFoundException {
         return reservaServicio.eliminarReserva(id);
     }
+
+    @GetMapping("/usuario/{idUsuario}")
+    public List<Reserva> obtenerReservasPorUsuario(@PathVariable Long idUsuario) {
+        return reservaServicio.obtenerReservasPorUsuario(idUsuario);
+    }
 }
