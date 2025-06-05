@@ -19,7 +19,6 @@ public class Reserva {
 
     @ManyToOne
     @JoinColumn(name = "matricula", nullable = false)
-    @JsonBackReference("vehiculo-reserva")
     private Vehiculo vehiculo;
 
     @ManyToOne
