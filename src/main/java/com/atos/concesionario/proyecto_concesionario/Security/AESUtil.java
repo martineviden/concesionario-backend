@@ -5,8 +5,8 @@ import javax.crypto.spec.*;
 import java.util.Base64;
 
 public class AESUtil {
-	private static final String SECRET_KEY = "claveSecreta1234"; // 🔐 Usa 16 caracteres (AES-128)
-    private static final String INIT_VECTOR = "RandomInitVector"; // 🔐 16 caracteres también
+	private static final String SECRET_KEY = "claveSecreta1234";
+    private static final String INIT_VECTOR = "RandomInitVector";
 
     public static String encrypt(String value) {
         try {
