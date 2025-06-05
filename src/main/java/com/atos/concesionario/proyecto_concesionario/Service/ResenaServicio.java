@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import com.atos.concesionario.proyecto_concesionario.Exception.ResourceNotFoundException;
 import com.atos.concesionario.proyecto_concesionario.Model.Resena;
 import com.atos.concesionario.proyecto_concesionario.Repository.ResenaRepositorio;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class ResenaServicio {
