@@ -62,9 +62,10 @@ public class ReservaControlador {
     @GetMapping("/usuario/{idUsuario}")
     public List<Reserva> obtenerReservasPorUsuario(@PathVariable Long idUsuario) {
         return reservaServicio.obtenerReservasPorUsuario(idUsuario);
+    }
     @Transactional
     @DeleteMapping("/matricula/{matricula}")
     public ResponseEntity<Map<String, Object>> eliminarReservasPorMatricula(@PathVariable String matricula) {
-        return reservaServicio.eliminarReservasPorMatricula( matricula);
+        return reservaServicio.eliminarReservasPorMatricula(matricula);
     }
 }
