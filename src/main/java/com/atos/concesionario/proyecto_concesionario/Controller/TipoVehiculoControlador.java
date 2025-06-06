@@ -32,7 +32,17 @@ public class TipoVehiculoControlador {
 	}
 
 	@PostMapping
-	public TipoVehiculo crearTipoVehiculo(@RequestBody TipoVehiculo tipoVehiculo) {
+	public TipoVehiculo crearTipoVehiculo(@RequestHeader("Content-Type") String contentType,
+										  @RequestBody TipoVehiculo tipoVehiculo) {
+
+		System.out.println("📥 Content-Type recibido: " + contentType);
+		System.out.println("📦 Datos recibidos:");
+		System.out.println("  Marca: " + tipoVehiculo.getMarca());
+		System.out.println("  Modelo: " + tipoVehiculo.getModelo());
+		System.out.println("  Precio: " + tipoVehiculo.getPrecio());
+		System.out.println("  Tipo: " + tipoVehiculo.getTipo());
+		System.out.println("  Imagen: " + tipoVehiculo.getImagen());
+
 		return tipoVehiculoServicio.crearTipoVehiculo(tipoVehiculo);
 	}
 

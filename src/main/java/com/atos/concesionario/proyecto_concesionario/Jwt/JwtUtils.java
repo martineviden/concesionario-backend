@@ -46,4 +46,13 @@ public class JwtUtils {
             return false;
         }
     }
+    public String getRolFromToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("rol", String.class);
+    }
+
 }

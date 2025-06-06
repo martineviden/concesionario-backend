@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
@@ -39,18 +40,24 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         if (jwtUtils.validarToken(token)) {
             String username = jwtUtils.getUsernameFromToken(token);
+            String rol = jwtUtils.getRolFromToken(token); //  Extraemos el rol manualmente
+
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             UsernamePasswordAuthenticationToken authToken =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            List.of(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + rol))
+                    );
 
             SecurityContextHolder.getContext().setAuthentication(authToken);
-
-            System.out.println(" Autenticación JWT exitosa para usuario: " + username);
+            System.out.println(" Autenticación JWT exitosa para usuario: " + username + " con rol: " + rol);
         } else {
             System.out.println(" Token JWT inválido: " + token);
         }
 
         filterChain.doFilter(request, response);
     }
+
 }

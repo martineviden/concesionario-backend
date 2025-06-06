@@ -50,7 +50,7 @@ public class UsuarioControlador {
         // Si alguien intenta crear un ADMIN...
         if (usuario.getRol() == Usuario.Rol.ADMIN) {
             // Solo permitirlo si está autenticado y es ADMIN
-            if (auth == null || auth.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ADMIN"))) {
+            if (auth == null || auth.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
                 return ResponseEntity.status(403).build();
             }
         }

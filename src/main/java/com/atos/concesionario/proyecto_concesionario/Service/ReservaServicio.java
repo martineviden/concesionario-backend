@@ -71,9 +71,7 @@ public class ReservaServicio {
     public List<Reserva> obtenerReservasPorUsuario(Long idUsuario) {
         return reservaRepositorio.findByUsuarioId(idUsuario);
     }
-
     @Transactional
-    @DeleteMapping("/reservas/matricula/{matricula}")
     public ResponseEntity<Map<String, Object>> eliminarReservasPorMatricula(@PathVariable String matricula) {
         List<Reserva> reservas = reservaRepositorio.findByVehiculoMatricula(matricula);
 

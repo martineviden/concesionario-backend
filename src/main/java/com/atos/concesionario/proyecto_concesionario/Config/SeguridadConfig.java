@@ -52,7 +52,7 @@ public class SeguridadConfig {
 		builder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 		return builder.build();
 	}
-
+/*
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
@@ -64,65 +64,80 @@ public class SeguridadConfig {
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
 		return http.build();
+	}*/
+
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(jwtUtils, userDetailsService);
+
+		http
+				.csrf(AbstractHttpConfigurer::disable)
+				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.authorizeHttpRequests(auth -> auth
+
+						// Usuarios
+						.requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+						.requestMatchers(HttpMethod.GET, "/usuarios").authenticated()
+						.requestMatchers(HttpMethod.PUT, "/usuarios").authenticated()
+						.requestMatchers(HttpMethod.DELETE, "/usuarios").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/usuarios/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.GET, "/usuarios/**").authenticated()
+						.requestMatchers(HttpMethod.PUT, "/usuarios/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMIN")
+
+						// Vehículos
+						.requestMatchers(HttpMethod.POST, "/vehiculos").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.GET, "/vehiculos").permitAll()
+						.requestMatchers(HttpMethod.PUT, "/vehiculos").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/vehiculos").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/vehiculos/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.GET, "/vehiculos/**").permitAll()
+						.requestMatchers(HttpMethod.PUT, "/vehiculos/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/vehiculos/**").hasRole("ADMIN")
+
+						// Reseñas
+						.requestMatchers(HttpMethod.POST, "/resenas").authenticated()
+						.requestMatchers(HttpMethod.GET, "/resenas").permitAll()
+						.requestMatchers(HttpMethod.PUT, "/resenas").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/resenas").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/resenas/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.GET, "/resenas/**").permitAll()
+						.requestMatchers(HttpMethod.PUT, "/resenas/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/resenas/**").hasRole("ADMIN")
+
+						// Reservas
+						.requestMatchers(HttpMethod.POST, "/reservas").authenticated()
+						.requestMatchers(HttpMethod.GET, "/reservas").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.PUT, "/reservas").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/reservas").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/reservas/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.GET, "/reservas/**").authenticated()
+						.requestMatchers(HttpMethod.PUT, "/reservas/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/reservas/**").hasRole("ADMIN")
+
+						// Tipos de vehículo
+						.requestMatchers(HttpMethod.POST, "/tipos-vehiculo").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.GET, "/tipos-vehiculo").permitAll()
+						.requestMatchers(HttpMethod.PUT, "/tipos-vehiculo").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/tipos-vehiculo").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/tipos-vehiculo/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.GET, "/tipos-vehiculo/**").permitAll()
+						.requestMatchers(HttpMethod.PUT, "/tipos-vehiculo/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/tipos-vehiculo/**").hasRole("ADMIN")
+
+						// Auth libre
+						.requestMatchers("/auth/**").permitAll()
+
+						// Cualquier otra petición
+						.anyRequest().authenticated()
+				)
+				.authenticationProvider(authenticationProvider())
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
+
+		return http.build();
 	}
 
-
-//	@Bean
-//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//
-//		JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(jwtUtils, userDetailsService);
-//		http
-//				.csrf(AbstractHttpConfigurer::disable)
-//				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//				.authorizeHttpRequests(auth -> auth
-//						.requestMatchers("/auth/**").permitAll()
-//
-//
-//						.requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
-//						.requestMatchers(HttpMethod.POST, "/usuarios/**").hasAuthority("ROLE_ADMIN")
-//
-//
-//
-//						/*.requestMatchers(HttpMethod.POST, "/vehiculos").hasAuthority("ROLE_ADMIN")
-//						.requestMatchers(HttpMethod.POST, "/vehiculos/**").hasAuthority("ROLE_ADMIN")*/
-//
-//						.requestMatchers(HttpMethod.POST, "/vehiculos").permitAll()
-//						.requestMatchers(HttpMethod.POST, "/vehiculos/**").permitAll()
-//
-//
-//						.requestMatchers(HttpMethod.PUT, "/vehiculos/**").hasAuthority("ROLE_ADMIN")
-//						.requestMatchers(HttpMethod.DELETE, "/vehiculos/**").hasAuthority("ROLE_ADMIN")
-//
-//						.requestMatchers(HttpMethod.GET, "/vehiculos/**").permitAll()
-//
-//						.requestMatchers(HttpMethod.POST, "/resenas/**").permitAll()
-//						.requestMatchers(HttpMethod.PUT, "/resenas/**").permitAll()
-//						.requestMatchers(HttpMethod.DELETE, "/resenas/**").permitAll()
-//
-//						.requestMatchers(HttpMethod.POST, "/reservas/**").permitAll()
-//						.requestMatchers(HttpMethod.DELETE, "/reservas/**").permitAll()
-//
-//						.requestMatchers(HttpMethod.GET,"/tipos-vehiculo").permitAll()
-//						.requestMatchers(HttpMethod.GET,"/tipos-vehiculo/**").permitAll()
-//                        .requestMatchers(HttpMethod.POST,"/tipos-vehiculo/").permitAll()
-//                        .requestMatchers(HttpMethod.DELETE,"/tipos-vehiculo/").permitAll()
-//                        .requestMatchers(HttpMethod.PUT,"/tipos-vehiculo/").permitAll()
-//                        .requestMatchers(HttpMethod.PUT,"/tipos-vehiculo/").permitAll()
-//
-//						.requestMatchers(HttpMethod.GET,"/especificaciones/**").permitAll()
-//						.requestMatchers(HttpMethod.DELETE, "/reservas/matricula/**").hasAuthority("ROLE_ADMIN")
-//						.requestMatchers(HttpMethod.DELETE, "/resenas/matricula/**").hasAuthority("ROLE_ADMIN")
-//
-//						// Todo lo demás requiere autenticación
-//						.anyRequest().authenticated()
-//				)
-//
-//				.authenticationProvider(authenticationProvider())
-//				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-//				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//		return http.build();
-//	}
 
 
 	@Bean
