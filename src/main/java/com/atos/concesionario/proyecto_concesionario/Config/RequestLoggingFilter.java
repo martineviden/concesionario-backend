@@ -16,7 +16,7 @@ public class RequestLoggingFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) request;
 
-        System.out.println("🔍 [Request] " + req.getMethod() + " " + req.getRequestURI());
+        System.out.println("[Request] " + req.getMethod() + " " + req.getRequestURI());
         System.out.println("Headers:");
         Collections.list(req.getHeaderNames())
                 .forEach(name -> System.out.println("  " + name + ": " + req.getHeader(name)));

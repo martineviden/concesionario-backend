@@ -52,7 +52,6 @@ public class SeguridadConfig {
 		builder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 		return builder.build();
 	}
-/*
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
@@ -64,8 +63,8 @@ public class SeguridadConfig {
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
 		return http.build();
-	}*/
-
+	}
+/*
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(jwtUtils, userDetailsService);
@@ -138,7 +137,7 @@ public class SeguridadConfig {
 		return http.build();
 	}
 
-
+*/
 
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
@@ -153,4 +152,5 @@ public class SeguridadConfig {
 		source.registerCorsConfiguration("/**", config);
 		return source;
 	}
+
 }

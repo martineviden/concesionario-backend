@@ -41,7 +41,7 @@ public class AuthControlador {
 		this.jwtUtils = jwtUtils;
 		this.usuarioServicio = usuarioServicio;
         this.usuarioRepositorio = usuarioRepositorio;
-        this.passwordEncoder = passwordEncoder; // ✅ esto enlaza la dependencia
+        this.passwordEncoder = passwordEncoder; //  esto enlaza la dependencia
 	}
 
 	@PostMapping("/login")
