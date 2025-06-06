@@ -17,7 +17,7 @@ INSERT INTO tipo_vehiculo (marca, modelo, precio, tipo_vehiculo, imagen) VALUES
 ('Renault', 'Clio', 27.00, 'COCHE', ''),
 ('Seat', 'Ibiza', 29.00, 'COCHE', ''),
 ('Suzuki', 'GSX-R750', 16.00, 'MOTO', ''),
-('Tesla', 'Model 3', 70.00, 'COCHE', ''),
+('Tesla', 'Model3', 70.00, 'COCHE', ''),
 ('Toyota', 'Corolla', 30.00, 'COCHE', ''),
 ('Volkswagen', 'Transporter', 50.00, 'FURGONETA', ''),
 ('Yamaha', 'MT-07', 12.00, 'MOTO', '');
