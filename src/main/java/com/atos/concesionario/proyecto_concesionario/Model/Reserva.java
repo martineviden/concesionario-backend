@@ -1,6 +1,8 @@
 package com.atos.concesionario.proyecto_concesionario.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -19,7 +21,7 @@ public class Reserva {
 
     @ManyToOne
     @JoinColumn(name = "matricula", nullable = false)
-    @JsonBackReference("vehiculo-reserva")
+    @JsonIgnoreProperties({"color", "kilometraje", "disponibilidad", "ubicacion", "combustible", "etiqueta", "autonomia", "puertas", "aireAcondicionado", "plazas", "transmision"})
     private Vehiculo vehiculo;
 
     @ManyToOne

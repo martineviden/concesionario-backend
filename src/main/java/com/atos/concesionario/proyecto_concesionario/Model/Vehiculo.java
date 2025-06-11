@@ -93,9 +93,8 @@ public class Vehiculo {
     private Transmision transmision;
 
     @OneToMany(mappedBy = "vehiculo", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference("vehiculo-reserva")
     private List<Reserva> reservas;
-	
+
 	
 	// Método helper para verificar tipo
     public boolean esMoto() {
