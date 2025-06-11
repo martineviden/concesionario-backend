@@ -3,16 +3,12 @@ package com.atos.concesionario.proyecto_concesionario.Config;
 import com.atos.concesionario.proyecto_concesionario.Jwt.JwtUtils;
 import com.atos.concesionario.proyecto_concesionario.Security.CustomUserDetailsService;
 import com.atos.concesionario.proyecto_concesionario.Security.JwtAuthorizationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.*;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -32,13 +28,9 @@ public class SeguridadConfig {
 
 	private final JwtUtils jwtUtils;
 
-	private final JwtAuthorizationFilter jwtAuthorizationFilter;
-
-
-	public SeguridadConfig(CustomUserDetailsService userDetailsService, JwtUtils jwtUtils, JwtAuthorizationFilter jwtAuthorizationFilter) {
+	public SeguridadConfig(CustomUserDetailsService userDetailsService, JwtUtils jwtUtils) {
 		this.userDetailsService = userDetailsService;
 		this.jwtUtils = jwtUtils;
-		this.jwtAuthorizationFilter = jwtAuthorizationFilter;
 	}
 
 	@Bean
@@ -60,7 +52,6 @@ public class SeguridadConfig {
 		builder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 		return builder.build();
 	}
-
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
@@ -73,11 +64,10 @@ public class SeguridadConfig {
 
 		return http.build();
 	}
-
-	
-	/*
+/*
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(jwtUtils, userDetailsService);
 
 		http
 				.csrf(AbstractHttpConfigurer::disable)
@@ -146,8 +136,8 @@ public class SeguridadConfig {
 
 		return http.build();
 	}
-	 */
 
+*/
 
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {

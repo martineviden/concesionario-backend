@@ -29,12 +29,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("🔍 Filtro JWT: interceptando " + request.getMethod() + " " + request.getRequestURI());
-
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            System.out.println("❌ Filtro JWT: no hay Authorization válido → sigue como anónimo");
             filterChain.doFilter(request, response);
             return;
         }
@@ -44,8 +41,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         if (jwtUtils.validarToken(token)) {
             String username = jwtUtils.getUsernameFromToken(token);
             String rol = jwtUtils.getRolFromToken(token); //  Extraemos el rol manualmente
-            System.out.println(" JWT extraído para usuario: " + username + " con rol: " + rol);
-
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
